@@ -11,9 +11,9 @@
 
     <packaging>pom</packaging>
     <groupId>ws.mocanu.comic-hero</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>comic-hero</artifactId>
     <version>1.0</version>
-    <name>comic-hero - Parent POM</name>
+    <name>comic-hero - Application</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,15 +21,45 @@
         <java.version>8</java.version>
     </properties>
 
-    <modules>
-        <module>app</module>
-        <module>expose-rss</module>
-        <module>expose-web</module>
-        <module>model</module>
-        <module>retrieve/api</module>
-        <module>retrieve/impl</module>
-        <module>store/api</module>
-        <module>store/impl</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.13</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rometools</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
