@@ -9,7 +9,7 @@
         <version>2.0.1.RELEASE</version>
     </parent>
 
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <groupId>ws.mocanu.comic-hero</groupId>
     <artifactId>comic-hero</artifactId>
     <version>1.0</version>

@@ -27,12 +27,16 @@ public class SinfestRetriever implements Retriever {
 
     private static final Logger log = LoggerFactory.getLogger(SinfestRetriever.class);
 
+    private static final String URL_PREFIX = "http://sinfest.net/";
     private static final String TITLE = "sinfest";
     private static final String ID = "{0}-{1}";
     private static final String DATE = "yyyy-MM-dd";
     private static final String WEB_PAGE = "http://sinfest.net/view.php?date={0}";
-    private static final String REGEX = "<img\\s+src=\"([^\"]+)\"\\s+alt=\"([^\"]+)\"";
+    private static final String REGEX = "<img\\s+src=\"(btphp/[^\"]+)\"\\s+alt=\"([^\"]+)\"";
     private static final Pattern REGEX_PATTERN = Pattern.compile(REGEX);
+
+
+    // http://sinfest.net/btphp/comics/2018-08-19.gif
 
     // Format is:
     // Web page: http://sinfest.net/view.php?date=2018-04-29
@@ -46,9 +50,9 @@ public class SinfestRetriever implements Retriever {
             String pageContent = getWebPageAsString(MessageFormat.format(WEB_PAGE, dateString));
             log.info("Sinfest: page loaded, total {} chars", pageContent.length());
             Matcher regexMatcher = REGEX_PATTERN.matcher(pageContent);
-            if (regexMatcher.matches()) {
+            if (regexMatcher.find()) {
                 log.info("Sinfest: target content successfully found, comic issue generated");
-                String comicImageUrl = regexMatcher.group(1);
+                String comicImageUrl = URL_PREFIX + regexMatcher.group(1);
                 String comicTitle = regexMatcher.group(2);
                 return new ComicIssue(issueId, comicTitle, comicImageUrl);
             }
