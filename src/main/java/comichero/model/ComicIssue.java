@@ -1,4 +1,4 @@
-package comichero.api;
+package comichero.model;
 
 public class ComicIssue {
 

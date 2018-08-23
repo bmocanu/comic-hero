@@ -1,8 +1,9 @@
 package comichero.retrievers;
 
-import comichero.api.ComicIssue;
+import comichero.model.ComicIssue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -35,12 +36,11 @@ public class SinfestRetriever implements Retriever {
     private static final String REGEX = "<img\\s+src=\"(btphp/[^\"]+)\"\\s+alt=\"([^\"]+)\"";
     private static final Pattern REGEX_PATTERN = Pattern.compile(REGEX);
 
+    @Value("${comics.sinfest.enabled}")
+    private boolean enabled;
 
-    // http://sinfest.net/btphp/comics/2018-08-19.gif
-
-    // Format is:
-    // Web page: http://sinfest.net/view.php?date=2018-04-29
-    // Target content: <img src="btphp/comics/2018-04-29.gif" alt="some title">
+    @Value("${comics.sinfest.proxyImage}")
+    private boolean proxyImage;
 
     public ComicIssue retrieveIssue(LocalDate date) {
         String dateString = DateTimeFormatter.ofPattern(DATE).format(date);
@@ -62,6 +62,13 @@ public class SinfestRetriever implements Retriever {
         }
         return null;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    // ----------------------------------------------------------------------------------------------------
 
     private String getWebPageAsString(String url) throws IOException {
         try (Scanner scanner = new Scanner(new URL(url).openStream(),

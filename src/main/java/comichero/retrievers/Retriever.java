@@ -1,6 +1,6 @@
 package comichero.retrievers;
 
-import comichero.api.ComicIssue;
+import comichero.model.ComicIssue;
 
 import java.time.LocalDate;
 
@@ -11,6 +11,8 @@ import java.time.LocalDate;
  * @author Bogdan Mocanu
  */
 public interface Retriever {
+
+    boolean isEnabled();
 
     ComicIssue retrieveIssue(LocalDate date);
 

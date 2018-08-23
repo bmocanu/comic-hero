@@ -1,4 +1,4 @@
-package comichero.api;
+package comichero.model;
 
 /**
  * A descriptor type for a comic. This includes a string ID, a name and a description.
