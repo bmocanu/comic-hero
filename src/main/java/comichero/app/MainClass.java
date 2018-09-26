@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {
         "comichero.app",
+        "comichero.config",
         "comichero.retrievers",
 })
 public class MainClass {

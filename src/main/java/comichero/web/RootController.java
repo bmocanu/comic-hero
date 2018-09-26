@@ -1,5 +1,6 @@
 package comichero.web;
 
+import comichero.config.Configuration;
 import comichero.model.ComicIssue;
 import comichero.retrievers.SinfestRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,18 @@ public class RootController {
 
     private final SinfestRetriever sinfestRetriever;
 
+    private final Configuration config;
+
     @Autowired
-    public RootController(SinfestRetriever sinfestRetriever) {
+    public RootController(SinfestRetriever sinfestRetriever, Configuration configuration) {
         this.sinfestRetriever = sinfestRetriever;
+        this.config = configuration;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @SuppressWarnings("unused")
     String homepage(Model model) {
+        System.out.println(config.toString());
         return "comics-list";
     }
 

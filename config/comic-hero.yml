@@ -1,0 +1,20 @@
+server:
+  address: 0.0.0.0
+  port: 8080
+  servlet:
+    context-path: /comic-hero
+
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+app:
+  sinfest:
+    enabled: true
+    proxy-image: false
+  dilbert:
+    enabled: true
+    proxy-image: false

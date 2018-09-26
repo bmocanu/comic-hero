@@ -36,10 +36,7 @@ public class SinfestRetriever implements Retriever {
     private static final String REGEX = "<img\\s+src=\"(btphp/[^\"]+)\"\\s+alt=\"([^\"]+)\"";
     private static final Pattern REGEX_PATTERN = Pattern.compile(REGEX);
 
-    @Value("${comics.sinfest.enabled}")
-    private boolean enabled;
-
-    @Value("${comics.sinfest.proxyImage}")
+    private boolean enabled = false;
     private boolean proxyImage;
 
     public ComicIssue retrieveIssue(LocalDate date) {
