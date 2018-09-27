@@ -1,0 +1,21 @@
+{
+    "server": {
+        "address": "0.0.0.0",
+        "port": 8080,
+        "contextPath": "/comic-hero"
+    },
+    "comics": [
+        {
+            "name": "sinfest",
+            "enabled": true,
+            "proxyImage": false,
+            "checkFrequency": "daily"
+        },
+        {
+            "name": "dilbert",
+            "enabled": true,
+            "proxyImage": false,
+            "checkFrequency": "daily"
+        }
+    ]
+}
