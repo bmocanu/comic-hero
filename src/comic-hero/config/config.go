@@ -6,6 +6,10 @@ import (
 	"os"
 )
 
+func init() {
+	fmt.Println("Inside config package initialization")
+}
+
 /*
 Config is the structure used for loading application configuration from an external JSON file
 */

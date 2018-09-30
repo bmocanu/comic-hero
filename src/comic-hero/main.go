@@ -1,7 +1,7 @@
 package main
 
 import (
-	"config"
+	"comic-hero/config"
 	"fmt"
 )
 
