@@ -10,12 +10,6 @@
             "enabled": true,
             "proxyImage": false,
             "checkFrequency": "daily"
-        },
-        {
-            "name": "dilbert",
-            "enabled": true,
-            "proxyImage": false,
-            "checkFrequency": "daily"
         }
     ]
 }

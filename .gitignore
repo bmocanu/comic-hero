@@ -10,3 +10,5 @@ target
 # Go specials
 bin
 pkg
+
+src/github.com
