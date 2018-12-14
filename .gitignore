@@ -12,3 +12,5 @@ bin
 pkg
 
 src/github.com
+*.exe
+vendor
