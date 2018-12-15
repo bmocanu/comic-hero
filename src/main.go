@@ -9,9 +9,12 @@ import (
 func main() {
 	log.SetLevel(log.InfoLevel)
 
-	var issue, _ = retrieve.SinfestIssue()
-	fmt.Println(issue)
+	//var issue, _ = retrieve.SinfestIssue()
+	//fmt.Println(issue)
+	//
+	//issue, _ = retrieve.DilbertIssue()
+	//fmt.Println(issue)
 
-	issue, _ = retrieve.DilbertIssue()
+	var issue, _ = retrieve.OglafIssue()
 	fmt.Println(issue)
 }

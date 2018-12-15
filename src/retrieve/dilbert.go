@@ -62,13 +62,7 @@ func DilbertIssue() (*model.Issue, error) {
 		return nil, errors.New("no comic issue data found in Dilbert HTML")
 	}
 
-	groups := make(map[string]string)
-	matchNames := dilbertRegexp.SubexpNames()
-	for index, groupName := range matchNames {
-		if index != 0 && groupName != "" {
-			groups[groupName] = match[index]
-		}
-	}
+	groups := extractGroupsAsMap(match, dilbertRegexp)
 
 	var issue = model.Issue{
 		Comic: dilbertComicId,

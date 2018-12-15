@@ -2,6 +2,7 @@ package retrieve
 
 import (
 	"comic-hero/src/model"
+	"errors"
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
@@ -38,7 +39,7 @@ func SinfestIssue() (*model.Issue, error) {
 	log.Info("Sinfest: retrieving ", sinfestPageUrlStr)
 	httpResp, err := http.Get(sinfestPageUrlStr)
 	if err != nil {
-		log.Warn("Failed to retrieve Sinfest page for current date", err)
+		log.Warn("Sinfest: failed to retrieve HTML page for current date", err)
 		return nil, err
 	}
 
@@ -58,11 +59,17 @@ func SinfestIssue() (*model.Issue, error) {
 	}
 
 	match := sinfestRegexp.FindStringSubmatch(string(htmlContent))
+	if match == nil {
+		log.Warn("Sinfest: no match found in retrieved HTML content")
+		return nil, errors.New("no comic issue data found in Sinfest HTML")
+	}
+
+	groups := extractGroupsAsMap(match, dilbertRegexp)
 	var issue = model.Issue{
 		Comic: sinfestComicId,
 		Time:  currentTime,
-		Url:   sinfestUrlPrefix + match[1],
-		Title: match[2],
+		Url:   sinfestUrlPrefix + groups["link"],
+		Title: groups["title"],
 	}
 
 	return &issue, nil
