@@ -14,11 +14,6 @@
 //	fmt.Println(cfg.Server.ContextPath)
 //	fmt.Println(cfg.Comics[0].Name)
 //
-//	ctab := crontab.New()
-//	ctab.MustAddJob("* * * * *", doTheTask)
-//	time.Sleep(10 * time.Minute)
-//}
-//
 //func doTheTask() {
 //	log.Println("Inside the task!")
 //}

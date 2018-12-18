@@ -1,20 +1,16 @@
 package main
 
 import (
-	"comic-hero/src/retrieve"
-	"fmt"
-	log "github.com/sirupsen/logrus"
+    log "github.com/sirupsen/logrus"
+    "time"
 )
 
 func main() {
-	log.SetLevel(log.InfoLevel)
+    log.SetLevel(log.InfoLevel)
 
-	//var issue, _ = retrieve.SinfestIssue()
-	//fmt.Println(issue)
-	//
-	//issue, _ = retrieve.DilbertIssue()
-	//fmt.Println(issue)
+    // retrieve.init() 	=> sets up the cron tab and schedules the periodical comic scanning
+    // store.init() 	=> sets up the issue storage
+    // serve.init()		=> sets up the HTTP interface + controllers
 
-	var issue, _ = retrieve.OglafIssue()
-	fmt.Println(issue)
+    time.Sleep(10 * time.Minute)
 }

@@ -1,7 +1,6 @@
 package retrieve
 
 import (
-	"comic-hero/src/model"
 	"errors"
 	"fmt"
 	log "github.com/sirupsen/logrus"
@@ -16,6 +15,8 @@ const sinfestPageUrl = "http://sinfest.net/view.php?date=%d-%d-%d" // year-month
 const sinfestRegexpStr = "<img src=\"(?P<link>[^\"]+)\" alt=\"(?P<title>[^\"]+)\">"
 const sinfestComicId = "sinfest"
 
+type sinfestRetrieverType struct{}
+
 var sinfestRegexp *regexp.Regexp
 
 func init() {
@@ -24,9 +25,12 @@ func init() {
 	if err != nil {
 		log.Panic("Cannot compile the regexp for Sinfest comic", err)
 	}
+
+	var instance sinfestRetrieverType
+	registerRetriever(sinfestComicId, instance)
 }
 
-func SinfestIssue() (*model.Issue, error) {
+func (sinfestRetrieverType) RetrieveIssue() (*model.Issue, error) {
 	// http://sinfest.net/view.php?date=2018-12-14
 	// <img src="btphp/comics/2018-12-14.gif" alt="MMXVIII 29">
 	var currentTime = time.Now()
@@ -64,8 +68,8 @@ func SinfestIssue() (*model.Issue, error) {
 		return nil, errors.New("no comic issue data found in Sinfest HTML")
 	}
 
-	groups := extractGroupsAsMap(match, dilbertRegexp)
-	var issue = model.Issue{
+	groups := extractGroupsAsMap(match, sinfestRegexp)
+	var issue = Issue{
 		Comic: sinfestComicId,
 		Time:  currentTime,
 		Url:   sinfestUrlPrefix + groups["link"],

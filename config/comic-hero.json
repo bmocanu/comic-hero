@@ -6,10 +6,22 @@
     },
     "comics": [
         {
+            "id": "10",
             "name": "sinfest",
             "enabled": true,
-            "proxyImage": false,
-            "checkFrequency": "daily"
+            "proxyImage": false
+        },
+        {
+            "id": "20",
+            "name": "dilbert",
+            "enabled": true,
+            "proxyImage": false
+        },
+        {
+            "id": "30",
+            "name": "oglaf",
+            "enabled": true,
+            "proxyImage": true
         }
     ]
 }
