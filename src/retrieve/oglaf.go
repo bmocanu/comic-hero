@@ -1,6 +1,7 @@
 package retrieve
 
 import (
+    "comic-hero/model"
     "errors"
     log "github.com/sirupsen/logrus"
     "io/ioutil"
@@ -59,7 +60,7 @@ func (oglafRetrieverType) RetrieveIssue() (*model.Issue, error) {
     }
 
     groups := extractGroupsAsMap(match, oglafRegexp)
-    var issue = Issue{
+    var issue = model.Issue{
         Comic: oglafComicId,
         Time:  time.Now(),
         Url:   groups["link"],

@@ -1,13 +1,14 @@
 package retrieve
 
 import (
-    "fmt"
+    "comic-hero/model"
+    "comic-hero/store"
     "github.com/mileusna/crontab"
     log "github.com/sirupsen/logrus"
     "regexp"
 )
 
-const cronOncePerHour = "0 * * * *"
+// const cronOncePerHour = "0 * * * *"
 const cronOncePerMinute = "* * * * *"
 
 var retrievers = make(map[string]Retriever)
@@ -19,7 +20,7 @@ func init() {
 // Retriever defines the behaviour of types that are capable of retrieving comic content (image, title, date) for a
 // particular comic website
 type Retriever interface {
-    RetrieveIssue() (*Issue, error)
+    RetrieveIssue() (*model.Issue, error)
 }
 
 // registerRetriever adds a new retriever in the map of known retrievers. The map is later on used for activating
@@ -38,7 +39,7 @@ func FetchNewIssues() {
     for _, retriever := range retrievers {
         issue, err := retriever.RetrieveIssue()
         if err == nil {
-            fmt.Println(issue)
+            store.NewIssue(issue)
         }
     }
 }

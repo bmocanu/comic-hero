@@ -2,12 +2,10 @@ package config
 
 import (
     "encoding/json"
-    "fmt"
     "os"
 )
 
 func init() {
-    fmt.Println("Inside config package initialization")
 }
 
 /*

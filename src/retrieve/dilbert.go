@@ -1,6 +1,7 @@
 package retrieve
 
 import (
+    "comic-hero/model"
     "errors"
     "fmt"
     log "github.com/sirupsen/logrus"
@@ -49,7 +50,9 @@ func (dilbertRetrieverType) RetrieveIssue() (*model.Issue, error) {
 
     defer httpResp.Body.Close()
 
-    if httpResp.StatusCode != 200 {
+    if httpResp.StatusCode == 200 {
+        log.Info("Dilbert: OK")
+    } else {
         log.Warn("Dilbert: got bad status code: ", httpResp.StatusCode)
         return nil, err
     }
@@ -68,7 +71,7 @@ func (dilbertRetrieverType) RetrieveIssue() (*model.Issue, error) {
 
     groups := extractGroupsAsMap(match, dilbertRegexp)
 
-    var issue = Issue{
+    var issue = model.Issue{
         Comic: dilbertComicId,
         Time:  currentTime,
         Url:   dilbertUrlPrefix + groups["link"],

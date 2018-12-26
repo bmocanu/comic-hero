@@ -1,8 +1,10 @@
 package main
 
 import (
+    _ "comic-hero/retrieve"
+    "comic-hero/serve"
+    _ "comic-hero/store"
     log "github.com/sirupsen/logrus"
-    "time"
 )
 
 func main() {
@@ -12,5 +14,10 @@ func main() {
     // store.init() 	=> sets up the issue storage
     // serve.init()		=> sets up the HTTP interface + controllers
 
-    time.Sleep(10 * time.Minute)
+    //for true {
+    //    time.Sleep(10 * time.Second)
+    //    retrieve.FetchNewIssues()
+    //}
+
+    serve.StartServing()
 }
