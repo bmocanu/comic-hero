@@ -14,3 +14,5 @@ pkg
 src/github.com
 *.exe
 vendor
+
+src/comic-hero

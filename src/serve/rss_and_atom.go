@@ -25,6 +25,7 @@ func getRss20Feed(w http.ResponseWriter, r *http.Request) {
         log.Warn("HTTP request for RSS 2.0 feed failed", err)
     }
 
+    w.Header().Set("Content-Type", "text/xml")
     w.WriteHeader(http.StatusOK)
     _, err = io.WriteString(w, xmlContent)
     if err != nil {
@@ -44,6 +45,7 @@ func getAtomFeed(w http.ResponseWriter, r *http.Request) {
         log.Warn("HTTP request for Atom feed failed", err)
     }
 
+    w.Header().Set("Content-Type", "text/xml")
     w.WriteHeader(http.StatusOK)
     _, err = io.WriteString(w, xmlContent)
     if err != nil {

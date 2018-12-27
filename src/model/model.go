@@ -2,6 +2,18 @@ package model
 
 import "time"
 
+type ServerConfig struct {
+    ListenAddress string
+    ListenPort    int
+    BaseUrl       string
+    ContextPath   string
+}
+
+type ComicConfig struct {
+    Enabled bool
+    Proxy   bool
+}
+
 type ComicDef struct {
     Id          int
     Name        string

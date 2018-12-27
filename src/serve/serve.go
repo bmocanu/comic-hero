@@ -1,23 +1,27 @@
 package serve
 
 import (
+    "comic-hero/config"
     _ "github.com/gorilla/feeds"
     "github.com/gorilla/mux"
     log "github.com/sirupsen/logrus"
     "net/http"
+    "strconv"
 )
 
 var httpHandler http.Handler
 
 func init() {
+    var contextPath = config.Server.ContextPath
     var localHandler = mux.NewRouter()
-    localHandler.HandleFunc("/", getFeedList).Methods("GET")
-    localHandler.HandleFunc("/css", getCss).Methods("GET")
-    localHandler.HandleFunc("/feed/rss/{id}", getRss20Feed).Methods("GET")
-    localHandler.HandleFunc("/feed/atom/{id}", getAtomFeed).Methods("GET")
+    localHandler.HandleFunc(contextPath, getFeedList).Methods("GET")
+    localHandler.HandleFunc(contextPath+"/css", getCss).Methods("GET")
+    localHandler.HandleFunc(contextPath+"/feed/rss/{id}", getRss20Feed).Methods("GET")
+    localHandler.HandleFunc(contextPath+"/feed/atom/{id}", getAtomFeed).Methods("GET")
     httpHandler = localHandler
 }
 
 func StartServing() {
-    log.Fatal(http.ListenAndServe(":8080", httpHandler))
+    var addressAndPort = config.Server.ListenAddress + ":" + strconv.Itoa(config.Server.ListenPort)
+    log.Fatal(http.ListenAndServe(addressAndPort, httpHandler))
 }

@@ -36,7 +36,7 @@ var pageSuffix = `
 `
 
 func getFeedList(w http.ResponseWriter, r *http.Request) {
-    var baseUrl = "http://localhost:8080"
+    var baseUrl = config.Server.BaseUrl
     var pageContent = fmt.Sprintf(pagePrefix, baseUrl+"/css")
 
     var sortedComicNames = make([]string, len(config.ComicDefs))
@@ -57,6 +57,8 @@ func getFeedList(w http.ResponseWriter, r *http.Request) {
     }
 
     pageContent += pageSuffix
+
+    w.Header().Set("Content-Type", "text/html")
     _, err := io.WriteString(w, pageContent)
     if err != nil {
         log.Error("Failed to write feed page HTML content to HTTP response", err)

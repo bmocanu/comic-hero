@@ -8,13 +8,13 @@ import (
     "regexp"
 )
 
-// const cronOncePerHour = "0 * * * *"
-const cronOncePerMinute = "* * * * *"
+const cronOncePerHour = "0 * * * *"
+//const cronOncePerMinute = "* * * * *"
 
 var retrievers = make(map[string]Retriever)
 
 func init() {
-    crontab.New().MustAddJob(cronOncePerMinute, FetchNewIssues)
+    crontab.New().MustAddJob(cronOncePerHour, FetchNewIssues)
 }
 
 // Retriever defines the behaviour of types that are capable of retrieving comic content (image, title, date) for a
