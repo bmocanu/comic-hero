@@ -61,10 +61,11 @@ func (oglafRetrieverType) RetrieveIssue() (*model.Issue, error) {
 
     groups := extractGroupsAsMap(match, oglafRegexp)
     var issue = model.Issue{
-        Comic: oglafComicId,
-        Time:  time.Now(),
-        Url:   groups["link"],
-        Title: groups["title"],
+        Comic:    oglafComicId,
+        Time:     time.Now(),
+        Url:      oglafPageUrl,
+        ImageUrl: groups["link"],
+        Title:    groups["title"],
     }
 
     return &issue, nil

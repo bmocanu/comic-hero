@@ -5,27 +5,26 @@ import (
     log "github.com/sirupsen/logrus"
     "os"
     "strconv"
-    "strings"
 )
 
 var Server model.ServerConfig
 
+const AppVersion = "1.1"
+
 func init() {
     Server.ListenAddress = getStringVar("LISTEN_ADDRESS", true, "")
     Server.ListenPort = getIntVar("LISTEN_PORT", true)
-    Server.BaseUrl = getStringVar("BASE_URL", true, "")
-    Server.ContextPath = getStringVar("CONTEXT_PATH", false, "")
+    Server.ContextPath = getStringVar("CONTEXT_PATH", true, "")
+
     // SINFEST=enabled;no-proxy
     // DILBERT=enabled;no-proxy
     // OGLAF=enabled;proxy
 
-    if strings.HasSuffix(Server.BaseUrl, "/") {
-        Server.BaseUrl = Server.BaseUrl[:len(Server.BaseUrl)-1]
-    }
-
+    log.Info("--------------------------------------------------")
+    log.Info("comic-hero RSS streamer | ver. ", AppVersion)
+    log.Info("--------------------------------------------------")
     log.Info("Config log: ListenAddress=", Server.ListenAddress)
     log.Info("Config log: ListenPort=", Server.ListenPort)
-    log.Info("Config log: BaseUrl=", Server.BaseUrl)
     log.Info("Config log: ContextPath=", Server.ContextPath)
 }
 

@@ -75,10 +75,11 @@ func (sinfestRetrieverType) RetrieveIssue() (*model.Issue, error) {
 
     groups := extractGroupsAsMap(match, sinfestRegexp)
     var issue = model.Issue{
-        Comic: sinfestComicId,
-        Time:  currentTime,
-        Url:   sinfestUrlPrefix + groups["link"],
-        Title: groups["title"],
+        Comic:    sinfestComicId,
+        Time:     currentTime,
+        Url:      sinfestPageUrlStr,
+        ImageUrl: sinfestUrlPrefix + groups["link"],
+        Title:    groups["title"],
     }
 
     return &issue, nil

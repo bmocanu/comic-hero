@@ -36,8 +36,8 @@ var pageSuffix = `
 `
 
 func getFeedList(w http.ResponseWriter, r *http.Request) {
-    var baseUrl = config.Server.BaseUrl
-    var pageContent = fmt.Sprintf(pagePrefix, baseUrl+"/css")
+    var contextPath = config.Server.ContextPath
+    var pageContent = fmt.Sprintf(pagePrefix, concat(contextPath, "/css"))
 
     var sortedComicNames = make([]string, len(config.ComicDefs))
     var index = 0
@@ -52,8 +52,8 @@ func getFeedList(w http.ResponseWriter, r *http.Request) {
         pageContent += fmt.Sprintf(feedDiv,
             comicDef.Url,
             comicDef.Name,
-            baseUrl+"/feed/atom/"+strconv.Itoa(comicDef.Id),
-            baseUrl+"/feed/rss/"+strconv.Itoa(comicDef.Id))
+            concat(contextPath, "/feed/atom/"+strconv.Itoa(comicDef.Id)),
+            concat(contextPath, "/feed/rss/"+strconv.Itoa(comicDef.Id)))
     }
 
     pageContent += pageSuffix

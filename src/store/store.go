@@ -3,14 +3,15 @@ package store
 import (
     "comic-hero/config"
     "comic-hero/model"
+    "crypto/sha1"
+    "fmt"
     log "github.com/sirupsen/logrus"
-    "hash/fnv"
 )
 
 var comicStore = make(map[int]*model.IssueLink)
 
 func NewIssue(issue *model.Issue) {
-    log.Info("New issue to be stored: ", issue.Comic, " - ", issue.Title, " - ", issue.Url)
+    log.Info("New issue to be stored: ", issue.Comic, " - ", issue.Title, " - ", issue.ImageUrl)
     var comicId, _ = config.GetIdForComicName(issue.Comic)
     var issueHash = calculateHashForIssue(issue)
     log.Info("New issue data: comicId ", comicId, ", issueHash ", issueHash)
@@ -55,12 +56,12 @@ func GetIssuesForComicId(id int) *model.IssueLink {
     return issueLink
 }
 
-func calculateHashForIssue(issue *model.Issue) uint32 {
-    hashTarget := issue.Url
-    h := fnv.New32a()
+func calculateHashForIssue(issue *model.Issue) string {
+    hashTarget := issue.ImageUrl
+    h := sha1.New()
     _, err := h.Write([]byte(hashTarget))
     if err != nil {
         log.Error("Failed to calculate hash for string ", hashTarget, err)
     }
-    return h.Sum32()
+    return fmt.Sprintf("%x", h.Sum(nil))
 }

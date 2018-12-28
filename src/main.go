@@ -10,6 +10,7 @@ import (
 
 func main() {
     log.SetLevel(log.InfoLevel)
+    log.SetFormatter(&log.TextFormatter{FullTimestamp: true})
     // config.init() 	=> sets up the configuration based on env vars
     // retrieve.init() 	=> sets up the cron tab and schedules the periodical comic scanning
     // store.init() 	=> sets up the issue storage

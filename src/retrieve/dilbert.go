@@ -72,10 +72,11 @@ func (dilbertRetrieverType) RetrieveIssue() (*model.Issue, error) {
     groups := extractGroupsAsMap(match, dilbertRegexp)
 
     var issue = model.Issue{
-        Comic: dilbertComicId,
-        Time:  currentTime,
-        Url:   dilbertUrlPrefix + groups["link"],
-        Title: groups["title"],
+        Comic:    dilbertComicId,
+        Time:     currentTime,
+        Url:      dilbertPageUrlStr,
+        ImageUrl: dilbertUrlPrefix + groups["link"],
+        Title:    groups["title"],
     }
 
     return &issue, nil

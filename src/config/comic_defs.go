@@ -40,16 +40,6 @@ func GetIdForComicName(comicName string) (int, bool) {
     return 0, false
 }
 
-func GetComicNameForId(id int) (string, bool) {
-    for currentName, currentDef := range ComicDefs {
-        if currentDef.Id == id {
-            return currentName, true
-        }
-    }
-
-    return "", false
-}
-
 func GetComicDefForId(id int) (*model.ComicDef, bool) {
     for _, currentDef := range ComicDefs {
         if currentDef.Id == id {
