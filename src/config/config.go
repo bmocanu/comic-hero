@@ -12,6 +12,12 @@ var Server model.ServerConfig
 const AppVersion = "1.1"
 
 func init() {
+    log.SetLevel(log.InfoLevel)
+    log.SetFormatter(&log.TextFormatter{FullTimestamp: true})
+    log.Info("--------------------------------------------------")
+    log.Info("comic-hero RSS streamer | ver. ", AppVersion)
+    log.Info("--------------------------------------------------")
+
     Server.ListenAddress = getStringVar("LISTEN_ADDRESS", true, "")
     Server.ListenPort = getIntVar("LISTEN_PORT", true)
     Server.ContextPath = getStringVar("CONTEXT_PATH", true, "")
@@ -20,9 +26,6 @@ func init() {
     // DILBERT=enabled;no-proxy
     // OGLAF=enabled;proxy
 
-    log.Info("--------------------------------------------------")
-    log.Info("comic-hero RSS streamer | ver. ", AppVersion)
-    log.Info("--------------------------------------------------")
     log.Info("Config log: ListenAddress=", Server.ListenAddress)
     log.Info("Config log: ListenPort=", Server.ListenPort)
     log.Info("Config log: ContextPath=", Server.ContextPath)

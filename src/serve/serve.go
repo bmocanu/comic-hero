@@ -15,6 +15,7 @@ var httpHandler http.Handler
 func init() {
     var contextPath = config.Server.ContextPath
     var localHandler = mux.NewRouter()
+    localHandler.HandleFunc(concat(contextPath, ""), getFeedList).Methods("GET")
     localHandler.HandleFunc(concat(contextPath, "/"), getFeedList).Methods("GET")
     localHandler.HandleFunc(concat(contextPath, "/css"), getCss).Methods("GET")
     localHandler.HandleFunc(concat(contextPath, "/feed/rss/{id}"), getRss20Feed).Methods("GET")

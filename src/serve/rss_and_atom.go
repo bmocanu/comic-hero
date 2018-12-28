@@ -18,46 +18,47 @@ const imageHtmlContent = `<img src="%s" title="%s" alt="%s" />`
 func getRss20Feed(w http.ResponseWriter, r *http.Request) {
     var feed, err = generateFeedObject(w, r)
     if err != nil {
-        log.Warn("HTTP request for RSS 2.0 feed failed", err)
+        log.Warn("HTTP request for RSS 2.0 feed failed: ", err)
         return
     }
 
     xmlContent, err := feed.ToRss()
     if err != nil {
-        log.Warn("HTTP request for RSS 2.0 feed failed", err)
+        log.Warn("HTTP request for RSS 2.0 feed failed: ", err)
     }
 
     w.Header().Set("Content-Type", "text/xml")
     w.WriteHeader(http.StatusOK)
     _, err = io.WriteString(w, xmlContent)
     if err != nil {
-        log.Error("Failed to write XML feed content to HTTP response", err)
+        log.Error("Failed to write XML feed content to HTTP response: ", err)
     }
 }
 
 func getAtomFeed(w http.ResponseWriter, r *http.Request) {
     var feed, err = generateFeedObject(w, r)
     if err != nil {
-        log.Warn("HTTP request for Atom feed failed", err)
+        log.Warn("HTTP request for Atom feed failed: ", err)
         return
     }
 
     xmlContent, err := feed.ToAtom()
     if err != nil {
-        log.Warn("HTTP request for Atom feed failed", err)
+        log.Warn("HTTP request for Atom feed failed: ", err)
     }
 
     w.Header().Set("Content-Type", "text/xml")
     w.WriteHeader(http.StatusOK)
     _, err = io.WriteString(w, xmlContent)
     if err != nil {
-        log.Error("Failed to write XML feed content to HTTP response", err)
+        log.Error("Failed to write XML feed content to HTTP response: ", err)
     }
 }
 
 func generateFeedObject(w http.ResponseWriter, r *http.Request) (*feeds.Feed, error) {
     var params = mux.Vars(r)
     var reqIdStr = params["id"]
+    log.Info("HTTP Get for feed: id=[", reqIdStr, "]: ", r.RequestURI)
 
     if reqIdStr == "" {
         w.WriteHeader(http.StatusNotFound)

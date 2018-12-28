@@ -24,7 +24,7 @@ func init() {
     var err error
     dilbertRegexp, err = regexp.Compile(dilbertRegexpStr)
     if err != nil {
-        log.Panic("Cannot compile the regexp for the Dilbert comic", err)
+        log.Panic("Cannot compile the regexp for the Dilbert comic: ", err)
     }
 
     var instance dilbertRetrieverType
@@ -44,22 +44,20 @@ func (dilbertRetrieverType) RetrieveIssue() (*model.Issue, error) {
     log.Info("Dilbert: retrieving ", dilbertPageUrlStr)
     httpResp, err := http.Get(dilbertPageUrlStr)
     if err != nil {
-        log.Warn("Dilbert: failed to retrieve page for current date", err)
+        log.Warn("Dilbert: failed to retrieve page for current date: ", err)
         return nil, err
     }
 
     defer httpResp.Body.Close()
 
-    if httpResp.StatusCode == 200 {
-        log.Info("Dilbert: OK")
-    } else {
+    if httpResp.StatusCode != 200 {
         log.Warn("Dilbert: got bad status code: ", httpResp.StatusCode)
         return nil, err
     }
 
     htmlContent, err := ioutil.ReadAll(httpResp.Body)
     if err != nil {
-        log.Warn("Dilbert: failed to parse the HTML content", err)
+        log.Warn("Dilbert: failed to parse the HTML content: ", err)
         return nil, err
     }
 

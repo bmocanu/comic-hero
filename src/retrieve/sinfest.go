@@ -24,7 +24,7 @@ func init() {
     var err error
     sinfestRegexp, err = regexp.Compile(sinfestRegexpStr)
     if err != nil {
-        log.Panic("Cannot compile the regexp for Sinfest comic", err)
+        log.Panic("Cannot compile the regexp for Sinfest comic: ", err)
     }
 
     var instance sinfestRetrieverType
@@ -44,15 +44,13 @@ func (sinfestRetrieverType) RetrieveIssue() (*model.Issue, error) {
     log.Info("Sinfest: retrieving ", sinfestPageUrlStr)
     httpResp, err := http.Get(sinfestPageUrlStr)
     if err != nil {
-        log.Warn("Sinfest: failed to retrieve HTML page for current date", err)
+        log.Warn("Sinfest: failed to retrieve HTML page for current date: ", err)
         return nil, err
     }
 
     defer httpResp.Body.Close()
 
-    if httpResp.StatusCode == 200 {
-        log.Info("Sinfest: OK")
-    } else {
+    if httpResp.StatusCode != 200 {
         log.Warn("Sinfest: Got bad status code: ", httpResp.StatusCode)
         return nil, err
     }

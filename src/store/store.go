@@ -11,10 +11,9 @@ import (
 var comicStore = make(map[int]*model.IssueLink)
 
 func NewIssue(issue *model.Issue) {
-    log.Info("New issue to be stored: ", issue.Comic, " - ", issue.Title, " - ", issue.ImageUrl)
     var comicId, _ = config.GetIdForComicName(issue.Comic)
     var issueHash = calculateHashForIssue(issue)
-    log.Info("New issue data: comicId ", comicId, ", issueHash ", issueHash)
+    log.Info("New issue to store: name=[", issue.Comic, "], comicId=[", comicId, "], title=[", issue.Title, "], imageUrl=[", issue.ImageUrl, "], hash=[", issueHash)
     var link, _ = comicStore[comicId]
 
     // list sanitization
@@ -61,7 +60,7 @@ func calculateHashForIssue(issue *model.Issue) string {
     h := sha1.New()
     _, err := h.Write([]byte(hashTarget))
     if err != nil {
-        log.Error("Failed to calculate hash for string ", hashTarget, err)
+        log.Error("Failed to calculate hash for string: ", hashTarget, ": ", err)
     }
     return fmt.Sprintf("%x", h.Sum(nil))
 }

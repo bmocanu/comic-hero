@@ -22,7 +22,7 @@ func init() {
     var err error
     oglafRegexp, err = regexp.Compile(oglafRegexpStr)
     if err != nil {
-        log.Panic("Cannot compile the regexp for Oglaf comic", err)
+        log.Panic("Cannot compile the regexp for Oglaf comic: ", err)
     }
 
     var instance oglafRetrieverType
@@ -34,15 +34,13 @@ func (oglafRetrieverType) RetrieveIssue() (*model.Issue, error) {
     log.Info("Oglaf: retrieving ", oglafPageUrl)
     httpResp, err := http.Get(oglafPageUrl)
     if err != nil {
-        log.Warn("Oglaf: failed to retrieve HTML page", err)
+        log.Warn("Oglaf: failed to retrieve HTML page: ", err)
         return nil, err
     }
 
     defer httpResp.Body.Close()
 
-    if httpResp.StatusCode == 200 {
-        log.Info("Oglaf: OK")
-    } else {
+    if httpResp.StatusCode != 200 {
         log.Warn("Oglaf: got bad status code: ", httpResp.StatusCode)
         return nil, err
     }

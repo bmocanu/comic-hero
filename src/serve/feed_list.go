@@ -36,6 +36,7 @@ var pageSuffix = `
 `
 
 func getFeedList(w http.ResponseWriter, r *http.Request) {
+    log.Info("HTTP Get for feed list HTML page: ", r.RequestURI)
     var contextPath = config.Server.ContextPath
     var pageContent = fmt.Sprintf(pagePrefix, concat(contextPath, "/css"))
 
@@ -61,6 +62,6 @@ func getFeedList(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "text/html")
     _, err := io.WriteString(w, pageContent)
     if err != nil {
-        log.Error("Failed to write feed page HTML content to HTTP response", err)
+        log.Error("Failed to write feed page HTML content to HTTP response: ", err)
     }
 }
