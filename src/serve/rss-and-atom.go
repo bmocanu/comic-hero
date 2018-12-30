@@ -13,7 +13,8 @@ import (
     "time"
 )
 
-const imageHtmlContent = `<img src="%s" title="%s" alt="%s" />`
+// imageUrl, title, imageUrl, title, title
+const imageHtmlContent = `<a href="%s" title="%s"><img src="%s" title="%s" alt="%s"/></a>`
 
 func getRss20Feed(w http.ResponseWriter, r *http.Request) {
     var feed, err = generateFeedObject(w, r)
@@ -95,7 +96,7 @@ func generateFeedObject(w http.ResponseWriter, r *http.Request) (*feeds.Feed, er
             newItem.Id = linkCursor.Hash
             newItem.Title = linkCursor.Issue.Title
             newItem.Link = &feeds.Link{Href: linkCursor.Issue.IssueUrl}
-            newItem.Description = fmt.Sprintf(imageHtmlContent, linkCursor.Issue.ImageUrl, linkCursor.Issue.Title, linkCursor.Issue.Title)
+            newItem.Description = fmt.Sprintf(imageHtmlContent, linkCursor.Issue.ImageUrl, linkCursor.Issue.Title, linkCursor.Issue.ImageUrl, linkCursor.Issue.Title, linkCursor.Issue.Title)
             newItem.Created = linkCursor.Issue.Time
             feed.Items[idx] = &newItem
             idx++

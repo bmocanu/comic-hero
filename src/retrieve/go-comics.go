@@ -12,7 +12,7 @@ import (
 )
 
 const gocomicsPageUrl = "https://www.gocomics.com/%s/%d/%d/%d" // comicName-year-month-day
-const gocomicsRegexpStr = `(?Us)<div class="comic container js-comic[^"]+".+?data-title="(?P<title>.+?) \| GoComics\.com".+?data-image="(?P<link>[^"]+)"`
+const gocomicsRegexpStr = `(?Us)<div class="comic container js-comic[^"]+".*?data-title="(?P<title>.*?) \| GoComics\.com".*?data-image="(?P<link>[^"]+)"`
 
 var gocomicsNames = [...]string{
     "bc", "calvinandhobbes", "fowl-language", "realitycheck", "pearlsbeforeswine", "moderately-confused",

@@ -11,7 +11,7 @@ import (
 )
 
 const oglafPageUrl = "https://www.oglaf.com/"
-const oglafRegexpStr = "<img id=\"strip\"\\s+src=\"(?P<link>[^\"]+)\"\\s+.+?\\s+title=\"(?P<title>[^\"]+)\"\\s+/>"
+const oglafRegexpStr = `<img id="strip"\s+src="(?P<link>[^"]+)"\s+.+?\s+title="(?P<title>[^"]+)"\s+/>`
 const oglafComicName = "oglaf"
 
 type oglafRetrieverType struct{}

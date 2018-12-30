@@ -10,10 +10,9 @@ import (
     "regexp"
     "time"
 )
-
 const dilbertUrlPrefix = "https:"
 const dilbertPageUrl = "https://dilbert.com/strip/%d-%d-%d" // year-month-day
-const dilbertRegexpStr = "<img class=\"img-responsive img-comic\" width=\"900\" height=\"280\" alt=\"(?P<title>.+?) - Dilbert by Scott Adams\" src=\"(?P<link>[^\"]+)\" />"
+const dilbertRegexpStr = `(?Us)<img class="img-responsive img-comic".*?alt="(?P<title>.*?) - Dilbert by Scott Adams" src="(?P<link>[^"]+)"`
 const dilbertComicName = "dilbert"
 
 type dilbertRetrieverType struct{}

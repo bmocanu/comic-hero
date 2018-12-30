@@ -36,7 +36,7 @@ var ComicDefs = map[string]model.ComicDef{
     },
     "calvinandhobbes": {
         Id:          50,
-        Name:        "Calvin &amp; Hobbes",
+        Name:        "Calvin & Hobbes",
         Description: "Since its introduction 1985, Bill Watterson's comic follows the richly imaginative adventures of 6-year-old Calvin and his trusty tiger, Hobbes.",
         Author:      "Bill Watterson",
         Url:         "https://www.gocomics.com/calvinandhobbes",
@@ -89,6 +89,13 @@ var ComicDefs = map[string]model.ComicDef{
         Description: "Dick Tracy is one of America's most-enduring pop-cultural icons, noteworthy for its steadfast, chisel-jawed hero and the gruesome gallery of villains he and his fearless team of Crimestoppers must outwit to put behind bars.",
         Author:      "Joe Staton, Mike Curtis",
         Url:         "https://www.gocomics.com/dicktracy",
+    },
+    "two-leaf-clover": {
+        Id:          130,
+        Name:        "Two Leaf Clover",
+        Description: "A bittersweet take on many aspects of life. Jokes pretty much tackle anything from cubicle humour, pop culture to the quirkiest sides of human nature.",
+        Author:      "Aaron Scott",
+        Url:         "http://twoleafclover.net/",
     },
 }
 

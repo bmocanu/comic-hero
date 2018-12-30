@@ -16,6 +16,7 @@ func main() {
 
     // initial retrieving upon startup
     retrieve.FetchNewIssues()
+    //retrieve.FetchNewIssueFor("sinfest")
 
     // start listening for incoming HTTP requests
     serve.StartServing()

@@ -9,7 +9,7 @@ import (
 
 var Server model.ServerConfig
 
-const AppVersion = "1.1"
+const AppVersion = "1.2"
 const IssueStoreSize = 10
 
 func init() {

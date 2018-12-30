@@ -44,6 +44,18 @@ func FetchNewIssues() {
     }
 }
 
+func FetchNewIssueFor(comicName string) {
+    log.Info("Calling retriever for ", comicName, " to check for a new issue")
+    for key, retriever := range retrievers {
+        if key == comicName {
+            issue, err := retriever.RetrieveIssue()
+            if err == nil {
+                store.NewIssue(issue)
+            }
+        }
+    }
+}
+
 // Utility functions ----------------------------------------------------------------------------------------
 
 // ExtractGroupsAsMap creates a map out of the regex groups found in the given regular expression, putting the

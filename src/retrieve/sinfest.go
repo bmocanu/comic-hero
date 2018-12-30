@@ -13,7 +13,7 @@ import (
 
 const sinfestUrlPrefix = "http://sinfest.net/"
 const sinfestPageUrl = "http://sinfest.net/view.php?date=%d-%d-%d" // year-month-day
-const sinfestRegexpStr = "<img src=\"(?P<link>[^\"]+)\" alt=\"(?P<title>[^\"]+)\">"
+const sinfestRegexpStr = `<img src="(?P<link>[^"]+)" alt="(?P<title>[^"]+)">`
 const sinfestComicName = "sinfest"
 
 type sinfestRetrieverType struct{}

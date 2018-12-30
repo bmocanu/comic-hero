@@ -28,6 +28,7 @@ func init() {
 
 func StartServing() {
     var addressAndPort = config.Server.ListenAddress + ":" + strconv.Itoa(config.Server.ListenPort)
+    log.Info("Listening for HTTP requests on: ", addressAndPort, ": contextPath: ", config.Server.ContextPath)
     log.Fatal(http.ListenAndServe(addressAndPort, httpHandler))
 }
 

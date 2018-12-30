@@ -6,6 +6,7 @@ import (
     "crypto/sha1"
     "fmt"
     log "github.com/sirupsen/logrus"
+    "strings"
 )
 
 var comicStore = make(map[int]*model.IssueLink)
@@ -13,9 +14,16 @@ var comicStore = make(map[int]*model.IssueLink)
 func NewIssue(issue *model.Issue) {
     var comicId, _ = config.GetIdForComicName(issue.ComicName)
     var issueHash = calculateHashForIssue(issue)
+
+    // issue sanitization
+    if strings.TrimSpace(issue.Title) == "" {
+        issue.Title = fmt.Sprintf("No title for %d/%d/%d", issue.Time.Day(), issue.Time.Month(), issue.Time.Year())
+    }
+
     log.Info("New issue to store: comicName=[", issue.ComicName,
         "], comicId=[", comicId,
         "], title=[", issue.Title,
+        "], issueUrl=[", issue.IssueUrl,
         "], imageUrl=[", issue.ImageUrl,
         "], hash=[", issueHash, "]")
     var link, _ = comicStore[comicId]
