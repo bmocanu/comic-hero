@@ -10,6 +10,7 @@ import (
 var Server model.ServerConfig
 
 const AppVersion = "1.1"
+const IssueStoreSize = 10
 
 func init() {
     log.SetLevel(log.InfoLevel)

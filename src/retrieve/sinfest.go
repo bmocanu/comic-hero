@@ -14,7 +14,7 @@ import (
 const sinfestUrlPrefix = "http://sinfest.net/"
 const sinfestPageUrl = "http://sinfest.net/view.php?date=%d-%d-%d" // year-month-day
 const sinfestRegexpStr = "<img src=\"(?P<link>[^\"]+)\" alt=\"(?P<title>[^\"]+)\">"
-const sinfestComicId = "sinfest"
+const sinfestComicName = "sinfest"
 
 type sinfestRetrieverType struct{}
 
@@ -27,13 +27,13 @@ func init() {
         log.Panic("Cannot compile the regexp for Sinfest comic: ", err)
     }
 
-    var instance sinfestRetrieverType
-    registerRetriever(sinfestComicId, instance)
+    registerRetriever(sinfestComicName, &sinfestRetrieverType{})
 }
 
 func (sinfestRetrieverType) RetrieveIssue() (*model.Issue, error) {
-    // http://sinfest.net/view.php?date=2018-12-14
+    // HTML sample
     // <img src="btphp/comics/2018-12-14.gif" alt="MMXVIII 29">
+
     var currentTime = time.Now()
     var year = currentTime.Year()
     var month = currentTime.Month()
@@ -64,20 +64,16 @@ func (sinfestRetrieverType) RetrieveIssue() (*model.Issue, error) {
     match := sinfestRegexp.FindStringSubmatch(string(htmlContent))
     if match == nil {
         log.Warn("Sinfest: no match found in retrieved HTML content")
-        log.Warn("Sinfest: no match found in retrieved HTML content")
-        log.Warn("Sinfest: no match found in retrieved HTML content")
-        log.Warn("Sinfest: no match found in retrieved HTML content")
-        log.Warn("Sinfest: no match found in retrieved HTML content")
         return nil, errors.New("no comic issue data found in Sinfest HTML")
     }
 
     groups := extractGroupsAsMap(match, sinfestRegexp)
     var issue = model.Issue{
-        Comic:    sinfestComicId,
-        Time:     currentTime,
-        Url:      sinfestPageUrlStr,
-        ImageUrl: sinfestUrlPrefix + groups["link"],
-        Title:    groups["title"],
+        ComicName: sinfestComicName,
+        Time:      currentTime,
+        IssueUrl:  sinfestPageUrlStr,
+        ImageUrl:  sinfestUrlPrefix + groups["link"],
+        Title:     groups["title"],
     }
 
     return &issue, nil

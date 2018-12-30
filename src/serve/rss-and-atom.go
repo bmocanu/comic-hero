@@ -94,7 +94,7 @@ func generateFeedObject(w http.ResponseWriter, r *http.Request) (*feeds.Feed, er
             var newItem feeds.Item
             newItem.Id = linkCursor.Hash
             newItem.Title = linkCursor.Issue.Title
-            newItem.Link = &feeds.Link{Href: linkCursor.Issue.Url}
+            newItem.Link = &feeds.Link{Href: linkCursor.Issue.IssueUrl}
             newItem.Description = fmt.Sprintf(imageHtmlContent, linkCursor.Issue.ImageUrl, linkCursor.Issue.Title, linkCursor.Issue.Title)
             newItem.Created = linkCursor.Issue.Time
             feed.Items[idx] = &newItem

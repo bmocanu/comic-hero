@@ -18,8 +18,11 @@ func init() {
     localHandler.HandleFunc(concat(contextPath, ""), getFeedList).Methods("GET")
     localHandler.HandleFunc(concat(contextPath, "/"), getFeedList).Methods("GET")
     localHandler.HandleFunc(concat(contextPath, "/css"), getCss).Methods("GET")
+    localHandler.HandleFunc(concat(contextPath, "/css/"), getCss).Methods("GET")
     localHandler.HandleFunc(concat(contextPath, "/feed/rss/{id}"), getRss20Feed).Methods("GET")
+    localHandler.HandleFunc(concat(contextPath, "/feed/rss/{id}/"), getRss20Feed).Methods("GET")
     localHandler.HandleFunc(concat(contextPath, "/feed/atom/{id}"), getAtomFeed).Methods("GET")
+    localHandler.HandleFunc(concat(contextPath, "/feed/atom/{id}/"), getAtomFeed).Methods("GET")
     httpHandler = localHandler
 }
 
@@ -30,7 +33,11 @@ func StartServing() {
 
 func concat(part1 string, part2 string) string {
     var path string
-    if !strings.HasSuffix(part1, "/") && !strings.HasPrefix(part2, "/") {
+    if part2 == "" {
+        path = part1
+    } else if part1 == "" {
+        path = part2
+    } else if !strings.HasSuffix(part1, "/") && !strings.HasPrefix(part2, "/") {
         path = part1 + "/" + part2
     } else {
         path = part1 + part2

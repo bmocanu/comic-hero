@@ -14,7 +14,7 @@ import (
 const dilbertUrlPrefix = "https:"
 const dilbertPageUrl = "https://dilbert.com/strip/%d-%d-%d" // year-month-day
 const dilbertRegexpStr = "<img class=\"img-responsive img-comic\" width=\"900\" height=\"280\" alt=\"(?P<title>.+?) - Dilbert by Scott Adams\" src=\"(?P<link>[^\"]+)\" />"
-const dilbertComicId = "dilbert"
+const dilbertComicName = "dilbert"
 
 type dilbertRetrieverType struct{}
 
@@ -27,12 +27,12 @@ func init() {
         log.Panic("Cannot compile the regexp for the Dilbert comic: ", err)
     }
 
-    var instance dilbertRetrieverType
-    registerRetriever(dilbertComicId, instance)
+    registerRetriever(dilbertComicName, &dilbertRetrieverType{})
 }
 
 func (dilbertRetrieverType) RetrieveIssue() (*model.Issue, error) {
     // https://dilbert.com/strip/2018-12-14
+    // HTML sample
     // <img class="img-responsive img-comic" width="900" height="280" alt="Cake Is Healthy - Dilbert by Scott Adams" src="//assets.amuniversal.com/f2d7d7f0c8c601366722005056a9545d">
     var currentTime = time.Now()
     var year = currentTime.Year()
@@ -70,11 +70,11 @@ func (dilbertRetrieverType) RetrieveIssue() (*model.Issue, error) {
     groups := extractGroupsAsMap(match, dilbertRegexp)
 
     var issue = model.Issue{
-        Comic:    dilbertComicId,
-        Time:     currentTime,
-        Url:      dilbertPageUrlStr,
-        ImageUrl: dilbertUrlPrefix + groups["link"],
-        Title:    groups["title"],
+        ComicName: dilbertComicName,
+        Time:      currentTime,
+        IssueUrl:  dilbertPageUrlStr,
+        ImageUrl:  dilbertUrlPrefix + groups["link"],
+        Title:     groups["title"],
     }
 
     return &issue, nil

@@ -11,9 +11,13 @@ import (
 var comicStore = make(map[int]*model.IssueLink)
 
 func NewIssue(issue *model.Issue) {
-    var comicId, _ = config.GetIdForComicName(issue.Comic)
+    var comicId, _ = config.GetIdForComicName(issue.ComicName)
     var issueHash = calculateHashForIssue(issue)
-    log.Info("New issue to store: name=[", issue.Comic, "], comicId=[", comicId, "], title=[", issue.Title, "], imageUrl=[", issue.ImageUrl, "], hash=[", issueHash)
+    log.Info("New issue to store: comicName=[", issue.ComicName,
+        "], comicId=[", comicId,
+        "], title=[", issue.Title,
+        "], imageUrl=[", issue.ImageUrl,
+        "], hash=[", issueHash, "]")
     var link, _ = comicStore[comicId]
 
     // list sanitization
@@ -36,18 +40,19 @@ func NewIssue(issue *model.Issue) {
         return
     }
 
-    if totalIssueCount >= 10 {
+    if totalIssueCount >= config.IssueStoreSize {
         linkBeforeLast.NextLink = nil
     }
+    totalIssueCount++
 
     var newLink model.IssueLink
     newLink.Issue = issue
     newLink.Hash = issueHash
     newLink.NextLink = link
-    newLink.IssueCount = totalIssueCount + 1
+    newLink.IssueCount = totalIssueCount
 
     comicStore[comicId] = &newLink
-    log.Info("New issue stored, total issues currently: ", totalIssueCount+1)
+    log.Info("New issue stored, total issues currently: ", totalIssueCount)
 }
 
 func GetIssuesForComicId(id int) *model.IssueLink {

@@ -12,7 +12,7 @@ import (
 
 const oglafPageUrl = "https://www.oglaf.com/"
 const oglafRegexpStr = "<img id=\"strip\"\\s+src=\"(?P<link>[^\"]+)\"\\s+.+?\\s+title=\"(?P<title>[^\"]+)\"\\s+/>"
-const oglafComicId = "oglaf"
+const oglafComicName = "oglaf"
 
 type oglafRetrieverType struct{}
 
@@ -25,12 +25,13 @@ func init() {
         log.Panic("Cannot compile the regexp for Oglaf comic: ", err)
     }
 
-    var instance oglafRetrieverType
-    registerRetriever(oglafComicId, instance)
+    registerRetriever(oglafComicName, &oglafRetrieverType{})
 }
 
 func (oglafRetrieverType) RetrieveIssue() (*model.Issue, error) {
+    // HTML sample
     // <img id="strip" src="https://media.oglaf.com/comic/rectitude.jpg" alt="maybe just get a bigger funnel?" title="the inaccurate conception">
+
     log.Info("Oglaf: retrieving ", oglafPageUrl)
     httpResp, err := http.Get(oglafPageUrl)
     if err != nil {
@@ -59,11 +60,11 @@ func (oglafRetrieverType) RetrieveIssue() (*model.Issue, error) {
 
     groups := extractGroupsAsMap(match, oglafRegexp)
     var issue = model.Issue{
-        Comic:    oglafComicId,
-        Time:     time.Now(),
-        Url:      oglafPageUrl,
-        ImageUrl: groups["link"],
-        Title:    groups["title"],
+        ComicName: oglafComicName,
+        Time:      time.Now(),
+        IssueUrl:  oglafPageUrl,
+        ImageUrl:  groups["link"],
+        Title:     groups["title"],
     }
 
     return &issue, nil
