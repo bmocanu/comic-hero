@@ -1,6 +1,7 @@
 package retrieve
 
 import (
+    "comic-hero/config"
     "comic-hero/model"
     "comic-hero/store"
     "github.com/mileusna/crontab"
@@ -8,13 +9,10 @@ import (
     "regexp"
 )
 
-const cronOncePerHour = "0 * * * *"
-//const cronOncePerMinute = "* * * * *"
-
 var retrievers = make(map[string]Retriever)
 
 func init() {
-    crontab.New().MustAddJob(cronOncePerHour, FetchNewIssues)
+    crontab.New().MustAddJob(config.Retrieve.IssuesFetchingCronJobConfig, FetchNewIssues)
 }
 
 // Retriever defines the behaviour of types that are capable of retrieving comic content (image, title, date) for a
@@ -35,19 +33,9 @@ func registerRetriever(name string, retriever Retriever) {
 }
 
 func FetchNewIssues() {
-    log.Info("Calling all retrievers for a new round of fetching comic issues")
-    for _, retriever := range retrievers {
-        issue, err := retriever.RetrieveIssue()
-        if err == nil {
-            store.NewIssue(issue)
-        }
-    }
-}
-
-func FetchNewIssueFor(comicName string) {
-    log.Info("Calling retriever for ", comicName, " to check for a new issue")
-    for key, retriever := range retrievers {
-        if key == comicName {
+    log.Info("Calling all ENABLED retrievers for a new round of fetching comic issues")
+    for comicName, retriever := range retrievers {
+        if config.IsComicEnabled(comicName) {
             issue, err := retriever.RetrieveIssue()
             if err == nil {
                 store.NewIssue(issue)

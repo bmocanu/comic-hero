@@ -2,6 +2,7 @@ package serve
 
 import (
     "comic-hero/config"
+    "comic-hero/model"
     "comic-hero/store"
     "fmt"
     "github.com/gorilla/feeds"
@@ -13,11 +14,8 @@ import (
     "time"
 )
 
-// imageUrl, title, imageUrl, title, title
-const imageHtmlContent = `<a href="%s" title="%s"><img src="%s" title="%s" alt="%s"/></a>`
-
-func getRss20Feed(w http.ResponseWriter, r *http.Request) {
-    var feed, err = generateFeedObject(w, r)
+func getRss20Feed(response http.ResponseWriter, request *http.Request) {
+    var feed, err = generateFeedObject(response, request)
     if err != nil {
         log.Warn("HTTP request for RSS 2.0 feed failed: ", err)
         return
@@ -28,16 +26,16 @@ func getRss20Feed(w http.ResponseWriter, r *http.Request) {
         log.Warn("HTTP request for RSS 2.0 feed failed: ", err)
     }
 
-    w.Header().Set("Content-Type", "text/xml")
-    w.WriteHeader(http.StatusOK)
-    _, err = io.WriteString(w, xmlContent)
+    response.Header().Set("Content-Type", "text/xml")
+    response.WriteHeader(http.StatusOK)
+    _, err = io.WriteString(response, xmlContent)
     if err != nil {
         log.Error("Failed to write XML feed content to HTTP response: ", err)
     }
 }
 
-func getAtomFeed(w http.ResponseWriter, r *http.Request) {
-    var feed, err = generateFeedObject(w, r)
+func getAtomFeed(response http.ResponseWriter, request *http.Request) {
+    var feed, err = generateFeedObject(response, request)
     if err != nil {
         log.Warn("HTTP request for Atom feed failed: ", err)
         return
@@ -48,37 +46,37 @@ func getAtomFeed(w http.ResponseWriter, r *http.Request) {
         log.Warn("HTTP request for Atom feed failed: ", err)
     }
 
-    w.Header().Set("Content-Type", "text/xml")
-    w.WriteHeader(http.StatusOK)
-    _, err = io.WriteString(w, xmlContent)
+    response.Header().Set("Content-Type", "text/xml")
+    response.WriteHeader(http.StatusOK)
+    _, err = io.WriteString(response, xmlContent)
     if err != nil {
         log.Error("Failed to write XML feed content to HTTP response: ", err)
     }
 }
 
-func generateFeedObject(w http.ResponseWriter, r *http.Request) (*feeds.Feed, error) {
-    var params = mux.Vars(r)
+func generateFeedObject(response http.ResponseWriter, request *http.Request) (*feeds.Feed, error) {
+    var params = mux.Vars(request)
     var reqIdStr = params["id"]
-    log.Info("HTTP Get for feed: id=[", reqIdStr, "]: ", r.RequestURI)
+    log.Info("HTTP Get for feed: id=[", reqIdStr, "]: ", request.RequestURI)
 
     if reqIdStr == "" {
-        w.WriteHeader(http.StatusNotFound)
+        response.WriteHeader(http.StatusNotFound)
         return nil, fmt.Errorf("HTTP request for feed, without any ID")
     }
 
     var reqId, err = strconv.Atoi(reqIdStr)
     if err != nil {
-        w.WriteHeader(http.StatusNotFound)
-        return nil, fmt.Errorf("HTTP request for feed, without any ID")
+        response.WriteHeader(http.StatusNotFound)
+        return nil, fmt.Errorf("HTTP request for feed, with invalid ID")
     }
 
     var comicDef, found = config.GetComicDefForId(reqId)
     if !found {
-        w.WriteHeader(http.StatusNotFound)
+        response.WriteHeader(http.StatusNotFound)
         return nil, fmt.Errorf("HTTP request for RSS 2.0 feed, with unknown ID")
     }
 
-    var issueLink = store.GetIssuesForComicId(reqId)
+    var issueList = store.GetIssueListForComicId(reqId)
 
     feed := &feeds.Feed{
         Title:       comicDef.Name,
@@ -88,15 +86,15 @@ func generateFeedObject(w http.ResponseWriter, r *http.Request) (*feeds.Feed, er
         Created:     time.Now(),
     }
 
-    if issueLink != nil {
-        feed.Items = make([]*feeds.Item, issueLink.IssueCount)
+    if issueList != nil {
+        feed.Items = make([]*feeds.Item, issueList.LinkCount)
         var idx = 0
-        for linkCursor := issueLink; linkCursor != nil; linkCursor = linkCursor.NextLink {
+        for linkCursor := issueList.FirstLink; linkCursor != nil; linkCursor = linkCursor.NextLink {
             var newItem feeds.Item
             newItem.Id = linkCursor.Hash
             newItem.Title = linkCursor.Issue.Title
             newItem.Link = &feeds.Link{Href: linkCursor.Issue.IssueUrl}
-            newItem.Description = fmt.Sprintf(imageHtmlContent, linkCursor.Issue.ImageUrl, linkCursor.Issue.Title, linkCursor.Issue.ImageUrl, linkCursor.Issue.Title, linkCursor.Issue.Title)
+            newItem.Description = calculateDescriptionForFeedItem(linkCursor)
             newItem.Created = linkCursor.Issue.Time
             feed.Items[idx] = &newItem
             idx++
@@ -104,4 +102,16 @@ func generateFeedObject(w http.ResponseWriter, r *http.Request) (*feeds.Feed, er
     }
 
     return feed, nil
+}
+
+func calculateDescriptionForFeedItem(issueLink *model.IssueLink) string {
+    var imageUrl string
+    if issueLink.ProxyImage {
+        imageUrl = issueLink.ProxyImageUrl
+    } else {
+        imageUrl = issueLink.Issue.ImageUrl
+    }
+
+    var imageHtmlContent = `<a href="%s" title="%s"><img src="%s" title="%s" alt="%s"/></a>`
+    return fmt.Sprintf(imageHtmlContent, imageUrl, issueLink.Issue.Title, imageUrl, issueLink.Issue.Title, issueLink.Issue.Title)
 }

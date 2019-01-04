@@ -4,60 +4,53 @@ import (
     "comic-hero/model"
     log "github.com/sirupsen/logrus"
     "os"
-    "strconv"
 )
 
-var Server model.ServerConfig
-
 const AppVersion = "1.2"
-const IssueStoreSize = 10
+var Server model.ServerConfig
+var Store model.StoreConfig
+var Retrieve model.RetrieveConfig
+
+var comics = make(map[string]model.ComicConfig)
+var appDir string
+var configDir string
+var configFile string
 
 func init() {
     log.SetLevel(log.InfoLevel)
     log.SetFormatter(&log.TextFormatter{FullTimestamp: true})
-    log.Info("--------------------------------------------------")
-    log.Info("comic-hero RSS streamer | ver. ", AppVersion)
-    log.Info("--------------------------------------------------")
+    logAppBanner()
 
-    Server.ListenAddress = getStringVar("LISTEN_ADDRESS", true, "")
-    Server.ListenPort = getIntVar("LISTEN_PORT", true)
-    Server.ContextPath = getStringVar("CONTEXT_PATH", true, "")
+    parseCommandLineArgs()
 
-    // SINFEST=enabled;no-proxy
-    // DILBERT=enabled;no-proxy
-    // OGLAF=enabled;proxy
-
-    log.Info("Config log: ListenAddress=", Server.ListenAddress)
-    log.Info("Config log: ListenPort=", Server.ListenPort)
-    log.Info("Config log: ContextPath=", Server.ContextPath)
-}
-
-func getStringVar(name string, mandatory bool, defaultValue string) string {
-    var value = os.Getenv(name)
-    if mandatory && value == "" {
-        log.Fatal("The " + name + " variable is not set")
-        os.Exit(1)
+    if !fileExists(configFile) {
+        log.Fatal("Cannot find configuration file: ", configFile)
+        os.Exit(model.ExitConfigFileNotFound)
     }
 
-    if value == "" {
-        return defaultValue
-    } else {
-        return value
-    }
-}
-
-func getIntVar(name string, mandatory bool) int {
-    var value = os.Getenv(name)
-    if mandatory && value == "" {
-        log.Fatal("The " + name + " variable is not set")
-        os.Exit(1)
-    }
-
-    var intValue, err = strconv.Atoi(value)
+    var err = loadConfigFromFile(configFile)
     if err != nil {
-        log.Fatal("The " + name + " variable is not a number")
-        os.Exit(1)
+        log.Fatal("Cannot load configuration file: ", configFile, ": ", err)
+        os.Exit(model.ExitConfigFileNotLoaded)
     }
 
-    return intValue
+    logConfigState()
+}
+
+func IsComicEnabled(name string) bool {
+    for key, comicConfig := range comics {
+        if name == key {
+            return comicConfig.Enabled
+        }
+    }
+    return false
+}
+
+func IsComicImageProxyEnabled(name string) bool {
+    for key, comicConfig := range comics {
+        if name == key {
+            return comicConfig.ProxyImage
+        }
+    }
+    return false
 }

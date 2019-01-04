@@ -60,10 +60,10 @@ h1 {
 }
 `
 
-func getCss(w http.ResponseWriter, r *http.Request) {
-    log.Info("HTTP Get for CSS page: ", r.RequestURI)
-    w.Header().Set("Content-Type", "text/css")
-    _, err := io.WriteString(w, cssContent)
+func getCss(response http.ResponseWriter, request *http.Request) {
+    log.Info("HTTP Get for CSS page: ", request.RequestURI)
+    response.Header().Set("Content-Type", "text/css")
+    _, err := io.WriteString(response, cssContent)
     if err != nil {
         log.Error("Failed to write CSS content to HTTP response: ", err)
     }

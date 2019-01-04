@@ -9,7 +9,7 @@ import (
     "strings"
 )
 
-var comicStore = make(map[int]*model.IssueLink)
+var comicStore = make(map[int]*model.IssueList)
 
 func NewIssue(issue *model.Issue) {
     var comicId, _ = config.GetIdForComicName(issue.ComicName)
@@ -26,15 +26,18 @@ func NewIssue(issue *model.Issue) {
         "], issueUrl=[", issue.IssueUrl,
         "], imageUrl=[", issue.ImageUrl,
         "], hash=[", issueHash, "]")
-    var link, _ = comicStore[comicId]
+    var list, listFound = comicStore[comicId]
+
+    if !listFound {
+        list = &model.IssueList{}
+        comicStore[comicId] = list
+    }
 
     // list sanitization
     var newIssueExists = false
-    var totalIssueCount = 0
     var linkBeforeLast *model.IssueLink
 
-    for linkCursor := link; linkCursor != nil; linkCursor = linkCursor.NextLink {
-        totalIssueCount++
+    for linkCursor := list.FirstLink; linkCursor != nil; linkCursor = linkCursor.NextLink {
         if linkCursor.Hash == issueHash {
             newIssueExists = true
         }
@@ -48,24 +51,47 @@ func NewIssue(issue *model.Issue) {
         return
     }
 
-    if totalIssueCount >= config.IssueStoreSize {
+    if list.LinkCount >= config.Store.IssuesStoredPerComic {
         linkBeforeLast.NextLink = nil
+        list.LinkCount--
     }
-    totalIssueCount++
+
+    var proxyImage = config.IsComicImageProxyEnabled(issue.ComicName)
+    var proxyUrl string
+    if proxyImage {
+        proxyUrl = calculateProxyUrlForComic(comicId, issueHash)
+    }
 
     var newLink model.IssueLink
     newLink.Issue = issue
     newLink.Hash = issueHash
-    newLink.NextLink = link
-    newLink.IssueCount = totalIssueCount
+    newLink.NextLink = list.FirstLink
+    newLink.ProxyImage = proxyImage
+    newLink.ProxyImageUrl = proxyUrl
 
-    comicStore[comicId] = &newLink
-    log.Info("New issue stored, total issues currently: ", totalIssueCount)
+    list.FirstLink = &newLink
+    list.LinkCount++
+
+    log.Info("New issue stored, total issues currently: ", list.LinkCount)
 }
 
-func GetIssuesForComicId(id int) *model.IssueLink {
-    var issueLink, _ = comicStore[id]
-    return issueLink
+func GetIssueListForComicId(comicId int) *model.IssueList {
+    var list, _ = comicStore[comicId]
+    return list
+}
+
+func GetIssueLinkByComicIdAndHash(comicId int, hash string) *model.IssueLink {
+    var issueList = GetIssueListForComicId(comicId)
+    if issueList == nil {
+        return nil
+    }
+
+    for linkCursor := issueList.FirstLink; linkCursor != nil; linkCursor = linkCursor.NextLink {
+        if linkCursor.Hash == hash {
+            return linkCursor
+        }
+    }
+    return nil
 }
 
 func calculateHashForIssue(issue *model.Issue) string {
@@ -76,4 +102,8 @@ func calculateHashForIssue(issue *model.Issue) string {
         log.Error("Failed to calculate hash for string: ", hashTarget, ": ", err)
     }
     return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+func calculateProxyUrlForComic(comicId int, issueHash string) string {
+    return fmt.Sprintf("%s/get/%d/%s", config.Server.BaseUrl, comicId, issueHash)
 }

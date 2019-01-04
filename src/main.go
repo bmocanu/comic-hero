@@ -3,7 +3,6 @@ package main
 import (
     _ "comic-hero/config"
     "comic-hero/retrieve"
-    _ "comic-hero/retrieve"
     "comic-hero/serve"
     _ "comic-hero/store"
 )
@@ -16,7 +15,6 @@ func main() {
 
     // initial retrieving upon startup
     retrieve.FetchNewIssues()
-    //retrieve.FetchNewIssueFor("sinfest")
 
     // start listening for incoming HTTP requests
     serve.StartServing()

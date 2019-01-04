@@ -6,11 +6,20 @@ type ServerConfig struct {
     ListenAddress string
     ListenPort    int
     ContextPath   string
+    BaseUrl       string
+}
+
+type StoreConfig struct {
+    IssuesStoredPerComic int
+}
+
+type RetrieveConfig struct {
+    IssuesFetchingCronJobConfig string
 }
 
 type ComicConfig struct {
-    Enabled bool
-    Proxy   bool
+    Enabled    bool
+    ProxyImage bool
 }
 
 type ComicDef struct {
@@ -35,8 +44,14 @@ type Issue struct {
 // An IssueLink is one link from a linked list, the structure used by the Store part of comic-hero for
 // storing the issues gathered for a particular comic
 type IssueLink struct {
-    Issue      *Issue
-    Hash       string
-    NextLink   *IssueLink
-    IssueCount int
+    Issue         *Issue
+    Hash          string
+    ProxyImage    bool
+    ProxyImageUrl string
+    NextLink      *IssueLink
+}
+
+type IssueList struct {
+    FirstLink *IssueLink
+    LinkCount int
 }

@@ -6,6 +6,7 @@ import (
     log "github.com/sirupsen/logrus"
     "io"
     "net/http"
+    "path"
     "sort"
     "strconv"
 )
@@ -35,10 +36,10 @@ var pageSuffix = `
 </html>
 `
 
-func getFeedList(w http.ResponseWriter, r *http.Request) {
-    log.Info("HTTP Get for feed list HTML page: ", r.RequestURI)
+func getFeedList(response http.ResponseWriter, request *http.Request) {
+    log.Info("HTTP Get for feed list HTML page: ", request.RequestURI)
     var contextPath = config.Server.ContextPath
-    var pageContent = fmt.Sprintf(pagePrefix, concat(contextPath, "/css"))
+    var pageContent = fmt.Sprintf(pagePrefix, path.Join(contextPath, "/css"))
 
     var sortedComicNames = make([]string, len(config.ComicDefs))
     var index = 0
@@ -53,14 +54,14 @@ func getFeedList(w http.ResponseWriter, r *http.Request) {
         pageContent += fmt.Sprintf(feedDiv,
             comicDef.Url,
             comicDef.Name,
-            concat(contextPath, "/feed/atom/"+strconv.Itoa(comicDef.Id)),
-            concat(contextPath, "/feed/rss/"+strconv.Itoa(comicDef.Id)))
+            path.Join(contextPath, "/feed/atom/"+strconv.Itoa(comicDef.Id)),
+            path.Join(contextPath, "/feed/rss/"+strconv.Itoa(comicDef.Id)))
     }
 
     pageContent += pageSuffix
 
-    w.Header().Set("Content-Type", "text/html")
-    _, err := io.WriteString(w, pageContent)
+    response.Header().Set("Content-Type", "text/html")
+    _, err := io.WriteString(response, pageContent)
     if err != nil {
         log.Error("Failed to write feed page HTML content to HTTP response: ", err)
     }

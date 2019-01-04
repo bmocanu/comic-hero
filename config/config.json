@@ -1,0 +1,29 @@
+{
+  "server": {
+    "address": "0.0.0.0",
+    "port": 8080,
+    "contextPath": "/comic-hero",
+    "baseUrl": "http://localhost:8080/comic-hero"
+  },
+  "store": {
+    "issuesStoredPerComic": 10
+  },
+  "retrieve": {
+    "issuesFetchingCronJobConfig": "23 */1 * * *"
+  },
+  "comics": [
+    { "name": "sinfest", "enabled": true, "proxyImage": true },
+    { "name": "dilbert", "enabled": false, "proxyImage": false },
+    { "name": "oglaf", "enabled": false, "proxyImage": false },
+    { "name": "bc", "enabled": false, "proxyImage": false },
+    { "name": "calvinandhobbes", "enabled": false, "proxyImage": false },
+    { "name": "fowl-language", "enabled": false, "proxyImage": false },
+    { "name": "realitycheck", "enabled": false, "proxyImage": false },
+    { "name": "pearlsbeforeswine", "enabled": false, "proxyImage": false },
+    { "name": "moderately-confused", "enabled": false, "proxyImage": false },
+    { "name": "speedbump", "enabled": false, "proxyImage": false },
+    { "name": "garfield", "enabled": false, "proxyImage": false },
+    { "name": "dicktracy", "enabled": false, "proxyImage": false },
+    { "name": "two-leaf-clover", "enabled": false, "proxyImage": false }
+  ]
+}
