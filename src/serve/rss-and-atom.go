@@ -94,7 +94,7 @@ func generateFeedObject(response http.ResponseWriter, request *http.Request) (*f
             newItem.Id = linkCursor.Hash
             newItem.Title = linkCursor.Issue.Title
             newItem.Link = &feeds.Link{Href: linkCursor.Issue.IssueUrl}
-            newItem.Description = calculateDescriptionForFeedItem(linkCursor)
+            newItem.Description = calculateDescriptionForFeedItem(linkCursor, reqId)
             newItem.Created = linkCursor.Issue.Time
             feed.Items[idx] = &newItem
             idx++
@@ -104,9 +104,12 @@ func generateFeedObject(response http.ResponseWriter, request *http.Request) (*f
     return feed, nil
 }
 
-func calculateDescriptionForFeedItem(issueLink *model.IssueLink) string {
+func calculateDescriptionForFeedItem(issueLink *model.IssueLink, comicId int) string {
     var imageUrl string
     if issueLink.ProxyImage {
+        if issueLink.ProxyImageUrl == "" {
+            issueLink.ProxyImageUrl = concat(config.Server.BaseUrl, fmt.Sprintf("/get/%d/%s", comicId, issueLink.Hash))
+        }
         imageUrl = issueLink.ProxyImageUrl
     } else {
         imageUrl = issueLink.Issue.ImageUrl

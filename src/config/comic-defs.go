@@ -30,7 +30,7 @@ var ComicDefs = map[string]model.ComicDef{
     "bc": {
         Id:          40,
         Name:        "B.C.",
-        Description: "Johnny Hart’s classic strip, B.C., puts a caveman twist on everything. From philosophical ants to punny bits of unconventional wisdom, you’ll see why this strip has been a favorite for so many years.",
+        Description: "Johnny Hart's classic strip, B.C., puts a caveman twist on everything. From philosophical ants to punny bits of unconventional wisdom, you'll see why this strip has been a favorite for so many years.",
         Author:      "Johnny Hart, Mason Mastroianni",
         Url:         "https://www.gocomics.com/bc",
     },

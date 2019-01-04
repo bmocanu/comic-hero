@@ -1,11 +1,14 @@
+/* basics ============================================ */
 body {
     font-family: Arial, sans-serif;
-    font-size: 14pt;
+    font-size: 16px;
     text-align: left;
+    padding-left: 15px;
 }
 
 body a {
     text-decoration: none;
+    color: orangered;
 }
 
 body a:hover {
@@ -13,97 +16,69 @@ body a:hover {
 }
 
 h1 {
-    font-size: 22pt;
-    margin: 25px 0 20px 15px;
+    font-size: 28px;
+    margin: 25px 0 20px 0;
 }
 
 h1 .subH1 {
-    color: #888888;
+    color: #BBB;
 }
 
-#comicsContainer {
-    display: table;
-    margin-left: 10px;
-    margin-right: auto;
-    width: 800px;
+/* comics table ============================================ */
+.comicsTable {
+    display: inline-block;
+    margin: 0 15px 0 0;
+    max-width: 1200px;
+    min-width: 500px;
 }
 
-#comicsContainer .row {
-    display: block;
+.comicsTable .row {
+    display: inline-block;
+    float: left;
+    width: 100%;
+    margin-bottom: 2px;
+    padding: 3px;
     background-color: #DDD;
-    border: solid 1px #000;
     border-radius: 5px;
-    margin: 5px 5px 5px 5px;
-    height: 80px;
-    box-shadow: 0 0 15px 1px #BBC;
-    width: calc(100% - 10px);
+    border-top: 1px solid #EEE;
+    border-left: 1px solid #EEE;
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
 }
 
-#comicsContainer .titleAndDesc {
-    display: inline-block;
+.comicsTable .row * {
     float: left;
-    width: calc(100% - 150px);
-    height: 100%;
+    padding: 2px;
+    vertical-align: middle;
 }
 
-#comicsContainer .feedLinks {
-    display: inline-block;
+.comicsTable .row .title {
+    width: calc(15% - 4px);
+}
+
+.comicsTable .row .title a {
+    color: blue;
+}
+
+.comicsTable .row .description {
+    width: calc(80% - 16px - 75px - 90px);
+    font-size: 90%;
+}
+
+.comicsTable .row .atomFeedLink {
     float: right;
-    width: 150px;
-    height: 100%;
-    padding-top: 8px;
+    text-wrap: none;
+    white-space: nowrap;
+    font-size: 90%;
 }
 
-#comicsContainer .row .title {
-    display: inline-block;
-    float: left;
-    text-align: left;
-    padding: 8px 5px 2px 10px;
-    width: calc(100% - 15px);
-}
-
-#comicsContainer .row .title a {
-    color: darkblue;
-}
-
-#comicsContainer .row .description {
-    display: inline-block;
-    float: left;
-    font-size: 15px;
-    width: calc(100% - 15px);
-    padding: 5px 5px 5px 10px;
-    text-align: left;
-}
-
-#comicsContainer .row .feedLink {
+.comicsTable .row .rss20FeedLink {
     float: right;
-    padding: 5px;
-    width: calc(100% - 10px);
-    text-align: center;
+    text-wrap: none;
+    font-size: 90%;
 }
 
-#comicsContainer .row .feedLink a {
-    color: brown;
-    font-size: 18px;
-}
-
-.enabled {
-    background-color: #f0ffe5;
-}
-
-.disabled {
-    background-color: #ffe5e5;
-}
-
+/* other elements ============================================ */
 #versionContainer {
-    margin: 20px 0 0 15px;
-    width: 800px;
-}
-
-#versionContainer a {
-    font-size: 14px;
-}
-
-#versionContainer .version {
-    font-size: 14px;
+    margin: 20px 0 0 0;
 }

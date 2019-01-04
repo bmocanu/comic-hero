@@ -7,56 +7,89 @@ import (
 )
 
 var cssContent = `
+/* basics ============================================ */
 body {
     font-family: Arial, sans-serif;
-    font-size: 14pt;
-    text-align: center;
-}
-
-h1 {
-    font-size: 22pt;
-}
-
-#comicsContainer {
-    background-color: #DDD;
-    display: table;
-    border: solid 1px black;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#comicsContainer .row {
-    display: table-row;
-}
-
-#comicsContainer .row .title {
-    padding: 5px;
-    width: 400px;
-    display: table-cell;
+    font-size: 16px;
     text-align: left;
+    padding-left: 15px;
 }
 
-#comicsContainer .row .link {
-    padding: 5px;
-    width: 120px;
-    display: table-cell;
-}
-
-#comicsContainer .row .link a {
-    color: brown;
+body a {
     text-decoration: none;
+    color: orangered;
 }
 
-#comicsContainer .row .link a:hover {
+body a:hover {
     text-decoration: underline;
 }
 
-.enabled {
-    background-color: #f0ffe5;
+h1 {
+    font-size: 28px;
+    margin: 25px 0 20px 0;
 }
 
-.disabled {
-    background-color: #ffe5e5;
+h1 .subH1 {
+    color: #BBB;
+}
+
+/* comics table ============================================ */
+.comicsTable {
+    display: inline-block;
+    margin: 0 15px 0 0;
+    max-width: 1200px;
+    min-width: 500px;
+}
+
+.comicsTable .row {
+    display: inline-block;
+    float: left;
+    width: 100%;
+    margin-bottom: 2px;
+    padding: 3px;
+    background-color: #DDD;
+    border-radius: 5px;
+    border-top: 1px solid #EEE;
+    border-left: 1px solid #EEE;
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+}
+
+.comicsTable .row * {
+    float: left;
+    padding: 2px;
+    vertical-align: middle;
+}
+
+.comicsTable .row .title {
+    width: calc(15% - 4px);
+}
+
+.comicsTable .row .title a {
+    color: blue;
+}
+
+.comicsTable .row .description {
+    width: calc(80% - 16px - 75px - 90px);
+    font-size: 90%;
+}
+
+.comicsTable .row .atomFeedLink {
+    float: right;
+    text-wrap: none;
+    white-space: nowrap;
+    font-size: 90%;
+}
+
+.comicsTable .row .rss20FeedLink {
+    float: right;
+    text-wrap: none;
+    font-size: 90%;
+}
+
+/* other elements ============================================ */
+#versionContainer {
+    margin: 20px 0 0 0;
 }
 `
 

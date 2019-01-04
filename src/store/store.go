@@ -57,17 +57,12 @@ func NewIssue(issue *model.Issue) {
     }
 
     var proxyImage = config.IsComicImageProxyEnabled(issue.ComicName)
-    var proxyUrl string
-    if proxyImage {
-        proxyUrl = calculateProxyUrlForComic(comicId, issueHash)
-    }
-
     var newLink model.IssueLink
     newLink.Issue = issue
     newLink.Hash = issueHash
     newLink.NextLink = list.FirstLink
     newLink.ProxyImage = proxyImage
-    newLink.ProxyImageUrl = proxyUrl
+    newLink.ProxyImageUrl = ""
 
     list.FirstLink = &newLink
     list.LinkCount++
@@ -102,8 +97,4 @@ func calculateHashForIssue(issue *model.Issue) string {
         log.Error("Failed to calculate hash for string: ", hashTarget, ": ", err)
     }
     return fmt.Sprintf("%x", h.Sum(nil))
-}
-
-func calculateProxyUrlForComic(comicId int, issueHash string) string {
-    return fmt.Sprintf("%s/get/%d/%s", config.Server.BaseUrl, comicId, issueHash)
 }
