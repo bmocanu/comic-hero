@@ -6,8 +6,8 @@ import (
     "os"
 )
 
-const AppVersion = "1.3"
-const AppReleaseDate = "Jan 4th, 2019"
+const AppVersion = "1.4"
+const AppReleaseDate = "Jan 6th, 2019"
 
 var Server model.ServerConfig
 var Store model.StoreConfig

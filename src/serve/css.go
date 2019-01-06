@@ -95,9 +95,10 @@ h1 .subH1 {
 
 func getCss(response http.ResponseWriter, request *http.Request) {
     log.Info("HTTP Get for CSS page: ", request.RequestURI)
-    response.Header().Set("Content-Type", "text/css")
+    setContentTypeHeader(response, "text/css")
     _, err := io.WriteString(response, cssContent)
     if err != nil {
         log.Error("Failed to write CSS content to HTTP response: ", err)
+        response.WriteHeader(http.StatusInternalServerError)
     }
 }

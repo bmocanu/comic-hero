@@ -1,0 +1,61 @@
+{
+  "server": {
+    "address": "0.0.0.0",
+    "port": 8080,
+    "contextPath": "/comic-hero",
+    "baseUrl": "http://localhost:8080/comic-hero"
+  },
+  "store": {
+    "issuesStoredPerComic": 10
+  },
+  "retrieve": {
+    "issuesFetchingCronJobConfig": "23 */1 * * *"
+  },
+  "comics": [
+    { "name": "9to5", "enabled": false, "proxyImage": false },
+    { "name": "bc", "enabled": false, "proxyImage": false },
+    { "name": "bignate", "enabled": false, "proxyImage": false },
+    { "name": "birdbrains", "enabled": false, "proxyImage": false },
+    { "name": "bloomcounty", "enabled": false, "proxyImage": false },
+    { "name": "brevity", "enabled": false, "proxyImage": false },
+    { "name": "calvinandhobbes", "enabled": false, "proxyImage": false },
+    { "name": "deflocked", "enabled": false, "proxyImage": false },
+    { "name": "dicktracy", "enabled": false, "proxyImage": false },
+    { "name": "dilbert", "enabled": false, "proxyImage": false },
+    { "name": "dogeatdoug", "enabled": false, "proxyImage": false },
+    { "name": "duplex", "enabled": false, "proxyImage": false },
+    { "name": "fowl-language", "enabled": false, "proxyImage": false },
+    { "name": "freerange", "enabled": false, "proxyImage": false },
+    { "name": "garfield", "enabled": false, "proxyImage": false },
+    { "name": "gasolinealley", "enabled": false, "proxyImage": false },
+    { "name": "getfuzzy", "enabled": false, "proxyImage": false },
+    { "name": "harley", "enabled": false, "proxyImage": false },
+    { "name": "heathcliff", "enabled": false, "proxyImage": false },
+    { "name": "herbandjamaal", "enabled": false, "proxyImage": false },
+    { "name": "imaginethis", "enabled": false, "proxyImage": false },
+    { "name": "inthebleachers", "enabled": false, "proxyImage": false },
+    { "name": "jerryholbert", "enabled": false, "proxyImage": false },
+    { "name": "libertymeadows", "enabled": false, "proxyImage": false },
+    { "name": "life-on-earth", "enabled": false, "proxyImage": false },
+    { "name": "luann", "enabled": false, "proxyImage": false },
+    { "name": "mikeluckovich", "enabled": false, "proxyImage": false },
+    { "name": "moderately-confused", "enabled": false, "proxyImage": false },
+    { "name": "nonsequitur", "enabled": false, "proxyImage": false },
+    { "name": "offthemark", "enabled": false, "proxyImage": false },
+    { "name": "oglaf", "enabled": false, "proxyImage": false },
+    { "name": "peanuts", "enabled": false, "proxyImage": false },
+    { "name": "pearlsbeforeswine", "enabled": false, "proxyImage": false },
+    { "name": "pot-shots", "enabled": false, "proxyImage": false },
+    { "name": "realitycheck", "enabled": false, "proxyImage": false },
+    { "name": "robrogers", "enabled": false, "proxyImage": false },
+    { "name": "roseisrose", "enabled": false, "proxyImage": false },
+    { "name": "sinfest", "enabled": true, "proxyImage": true },
+    { "name": "speedbump", "enabled": false, "proxyImage": false },
+    { "name": "strangebrew", "enabled": false, "proxyImage": false },
+    { "name": "two-leaf-clover", "enabled": false, "proxyImage": false },
+    { "name": "waynovision", "enabled": false, "proxyImage": false },
+    { "name": "whyatt-cartoons", "enabled": false, "proxyImage": false },
+    { "name": "wizardofid", "enabled": false, "proxyImage": false },
+    { "name": "wumo", "enabled": false, "proxyImage": false }
+  ]
+}

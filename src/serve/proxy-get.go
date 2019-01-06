@@ -67,8 +67,8 @@ func getProxyImage(response http.ResponseWriter, request *http.Request) {
         return
     }
 
-    response.Header().Set("Content-Type", headerContentType)
-    response.Header().Set("Content-Length", headerContentLength)
+    setContentTypeHeader(response, headerContentType)
+    setContentLengthHeader(response, headerContentLength)
     if headerAcceptEncoding != "" {
         response.Header().Set("Accept-Encoding", headerAcceptEncoding)
     }

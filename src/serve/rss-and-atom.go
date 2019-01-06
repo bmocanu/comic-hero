@@ -8,6 +8,7 @@ import (
     "github.com/gorilla/feeds"
     "github.com/gorilla/mux"
     log "github.com/sirupsen/logrus"
+    "html"
     "io"
     "net/http"
     "strconv"
@@ -26,7 +27,8 @@ func getRss20Feed(response http.ResponseWriter, request *http.Request) {
         log.Warn("HTTP request for RSS 2.0 feed failed: ", err)
     }
 
-    response.Header().Set("Content-Type", "text/xml")
+    setContentTypeHeader(response, "text/xml")
+    setNoCachingHeaders(response)
     response.WriteHeader(http.StatusOK)
     _, err = io.WriteString(response, xmlContent)
     if err != nil {
@@ -46,7 +48,8 @@ func getAtomFeed(response http.ResponseWriter, request *http.Request) {
         log.Warn("HTTP request for Atom feed failed: ", err)
     }
 
-    response.Header().Set("Content-Type", "text/xml")
+    setContentTypeHeader(response, "text/xml")
+    setNoCachingHeaders(response)
     response.WriteHeader(http.StatusOK)
     _, err = io.WriteString(response, xmlContent)
     if err != nil {
@@ -79,10 +82,10 @@ func generateFeedObject(response http.ResponseWriter, request *http.Request) (*f
     var issueList = store.GetIssueListForComicId(reqId)
 
     feed := &feeds.Feed{
-        Title:       comicDef.Name,
+        Title:       html.EscapeString(comicDef.Name),
         Link:        &feeds.Link{Href: comicDef.Url},
-        Description: comicDef.Description,
-        Author:      &feeds.Author{Name: comicDef.Author},
+        Description: html.EscapeString(comicDef.Description),
+        Author:      &feeds.Author{Name: html.EscapeString(comicDef.Author)},
         Created:     time.Now(),
     }
 
@@ -92,7 +95,7 @@ func generateFeedObject(response http.ResponseWriter, request *http.Request) (*f
         for linkCursor := issueList.FirstLink; linkCursor != nil; linkCursor = linkCursor.NextLink {
             var newItem feeds.Item
             newItem.Id = linkCursor.Hash
-            newItem.Title = linkCursor.Issue.Title
+            newItem.Title = html.EscapeString(linkCursor.Issue.Title)
             newItem.Link = &feeds.Link{Href: linkCursor.Issue.IssueUrl}
             newItem.Description = calculateDescriptionForFeedItem(linkCursor, reqId)
             newItem.Created = linkCursor.Issue.Time
@@ -108,7 +111,7 @@ func calculateDescriptionForFeedItem(issueLink *model.IssueLink, comicId int) st
     var imageUrl string
     if issueLink.ProxyImage {
         if issueLink.ProxyImageUrl == "" {
-            issueLink.ProxyImageUrl = concat(config.Server.BaseUrl, fmt.Sprintf("/get/%d/%s", comicId, issueLink.Hash))
+            issueLink.ProxyImageUrl = urlConcat(config.Server.BaseUrl, fmt.Sprintf("/get/%d/%s", comicId, issueLink.Hash))
         }
         imageUrl = issueLink.ProxyImageUrl
     } else {
@@ -116,5 +119,6 @@ func calculateDescriptionForFeedItem(issueLink *model.IssueLink, comicId int) st
     }
 
     var imageHtmlContent = `<a href="%s" title="%s"><img src="%s" title="%s" alt="%s"/></a>`
-    return fmt.Sprintf(imageHtmlContent, imageUrl, issueLink.Issue.Title, imageUrl, issueLink.Issue.Title, issueLink.Issue.Title)
+    var imageTitle = html.EscapeString(issueLink.Issue.Title)
+    return fmt.Sprintf(imageHtmlContent, imageUrl, imageTitle, imageUrl, imageTitle, imageTitle)
 }

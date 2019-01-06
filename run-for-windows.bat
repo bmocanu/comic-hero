@@ -16,4 +16,4 @@ go build
 cd %START_DIR%
 
 echo "Running the program"
-src\comic-hero.exe -config-dir=..\config
+src\comic-hero.exe -config-dir=..\config -config-file=local-config.json

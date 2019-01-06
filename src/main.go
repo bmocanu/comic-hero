@@ -5,6 +5,8 @@ import (
     "comic-hero/retrieve"
     "comic-hero/serve"
     _ "comic-hero/store"
+    "math/rand"
+    "time"
 )
 
 func main() {
@@ -12,6 +14,7 @@ func main() {
     // retrieve.init() 	=> sets up the cron tab and schedules the periodical comic scanning
     // store.init() 	=> sets up the issue storage
     // serve.init()		=> sets up the HTTP interface + controllers
+    rand.Seed(time.Now().UnixNano())
 
     // initial retrieving upon startup
     retrieve.FetchNewIssues()

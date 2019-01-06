@@ -16,7 +16,11 @@ const gocomicsRegexpStr = `(?Us)<div class="comic container js-comic[^"]+".*?dat
 
 var gocomicsNames = [...]string{
     "bc", "calvinandhobbes", "fowl-language", "realitycheck", "pearlsbeforeswine", "moderately-confused",
-    "speedbump", "garfield", "dicktracy",
+    "speedbump", "garfield", "dicktracy", "freerange", "brevity", "deflocked", "birdbrains", "peanuts",
+    "duplex", "jerryholbert", "life-on-earth", "whyatt-cartoons", "pot-shots", "waynovision", "dogeatdoug",
+    "luann", "mikeluckovich", "nonsequitur", "bignate", "inthebleachers", "imaginethis", "bloomcounty",
+    "wizardofid", "strangebrew", "wumo", "gasolinealley", "getfuzzy", "roseisrose", "robrogers", "offthemark",
+    "libertymeadows", "heathcliff", "herbandjamaal", "harley", "9to5",
 }
 
 var gocomicsRegexp *regexp.Regexp
