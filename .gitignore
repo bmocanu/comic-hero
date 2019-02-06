@@ -16,3 +16,5 @@ src/github.com
 vendor
 
 src/comic-hero
+src/*.tar.gz
+src/*.zip

@@ -7,8 +7,8 @@ image URL and turns them into Atom and RSS 2.0 feeds. You can then point your RS
 feed for a daily dose of online comics.
 
 # Download
-The latest version is 1.5, released Feb 7th, 2019.
-Download the Windows and Linux binaries on the Release page.
+The latest version is 1.5, released on Feb 7th, 2019.
+Download the Windows and Linux binaries on the [Release](https://github.com/bmocanu/comic-hero/releases) page.
 
 # Run it
 comic-hero needs to be run by you, on your premise, on your server. There is no online As A Service 
