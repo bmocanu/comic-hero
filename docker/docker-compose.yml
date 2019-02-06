@@ -1,0 +1,19 @@
+version: "3"
+services:
+  comic-hero:
+    build: comic-hero
+    image: my/comic-hero
+    container_name: comic-hero
+    hostname: comic-hero
+    user: cmchero
+    restart: unless-stopped
+    networks:
+      - default-vnet
+    volumes:
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /home/user/comic-hero/config:/config
+
+networks:
+  default-vnet:
+    external:
+      name: default-vnet
