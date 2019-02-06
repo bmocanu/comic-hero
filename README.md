@@ -29,17 +29,17 @@ comic-hero -config-dir=/custom-folder -config-file=local-config.json
 Samples of configuration files can be found in the `config` folder in the repository.
 
 While most of the attributes are self explanatory, here are some that are a bit special:
-* server.contextPath: the optional name that comes after the host:port part. If you run the server
+* `server.contextPath`: the optional name that comes after the host:port part. If you run the server
   in the root of the server web path, this attribute should be "/", otherwise set it to the name
-  of your application path (e.g. "/comic-hero" will make the app accessible at _http://host:port/comic-hero_)
-* server.baseUrl: the absolute external URL to your application. Usually it is protocol + host + port + contextPath
-* store.issuesStoredPerComic: the number of comic issues to store per comic and include in the Atom or RSS 2.0 feed.
+  of your application path (e.g. "/comic-hero" will make the app accessible at http://host:port/comic-hero)
+* `server.baseUrl`: the absolute external URL to your application. Usually it is protocol + host + port + contextPath
+* `store.issuesStoredPerComic`: the number of comic issues to store per comic and include in the Atom or RSS 2.0 feed.
   After this number, the issues are rolled (oldest one is discarded to make room for the new one)
-* retrieve.issuesFetchingCronJobConfig: the cron job configuration for checking ALL comics for new issues. 
-  You can use this website https://crontab.guru/ to help you with cron job configuration patterns.
-* comics.enabled: if comic-hero will scan this website or not. If this is false, the feed is still 
+* `retrieve.issuesFetchingCronJobConfig`: the cron job configuration for checking ALL comics for new issues. 
+  You can use https://crontab.guru/ to help you with cron job configuration patterns.
+* `comics.enabled`: if comic-hero will scan this website or not. If this is false, the feed is still 
   published but it will have zero issues.
-* comics.proxyImage: if comic-hero should proxy the actual image. Sometimes comics might be filtered
+* `comics.proxyImage`: if comic-hero should proxy the actual image. Sometimes comics might be filtered
   by your company web protection filter (e.g. adult content is filtered out). comic-hero generates
   simple feed URLs and, if this option is _true_ it also generates custom URLs, acting as a proxy for 
   the issue image. Your browser will call comic-hero for getting the image, and comic-hero will, in 
