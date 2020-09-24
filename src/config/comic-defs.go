@@ -321,6 +321,20 @@ var ComicDefs = map[string]model.ComicDef{
         Author:      "Harley Schwadron",
         Url:         "https://gocomics.com/9to5",
     },
+    "herman": {
+        Id:          460,
+        Name:        "Herman",
+        Description: "Herman, the hilarious groundbreaking cartoon feature that appears in hundreds of newspapers worldwide.",
+        Author:      "Jim Unger",
+        Url:         "https://gocomics.com/herman",
+    },
+    "pickles": {
+        Id:          470,
+        Name:        "Pickles",
+        Description: "Pickles tells the story of Earl and Opal Pickles as they enjoy their golden years surrounded by friends and family.",
+        Author:      "Brian Crane",
+        Url:         "https://gocomics.com/pickles",
+    },
 }
 
 func GetIdForComicName(comicName string) (int, bool) {

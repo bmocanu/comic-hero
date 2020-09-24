@@ -1,5 +1,7 @@
 module comic-hero
 
+go 1.15
+
 require (
 	github.com/gorilla/feeds v1.1.0
 	github.com/gorilla/mux v1.6.2

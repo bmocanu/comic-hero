@@ -5,12 +5,13 @@ import (
     "errors"
     "fmt"
     log "github.com/sirupsen/logrus"
+    "html"
     "io/ioutil"
     "net/http"
     "regexp"
     "time"
 )
-const dilbertUrlPrefix = "https:"
+
 const dilbertPageUrl = "https://dilbert.com/strip/%d-%d-%d" // year-month-day
 const dilbertRegexpStr = `(?Us)<img class="img-responsive img-comic".*?alt="(?P<title>.*?) - Dilbert by Scott Adams" src="(?P<link>[^"]+)"`
 const dilbertComicName = "dilbert"
@@ -67,13 +68,14 @@ func (dilbertRetrieverType) RetrieveIssue() (*model.Issue, error) {
     }
 
     groups := extractGroupsAsMap(match, dilbertRegexp)
+    log.Info("Dilbert: retrieved title: ", groups["title"]);
 
     var issue = model.Issue{
         ComicName: dilbertComicName,
         Time:      currentTime,
         IssueUrl:  dilbertPageUrlStr,
-        ImageUrl:  dilbertUrlPrefix + groups["link"],
-        Title:     groups["title"],
+        ImageUrl:  groups["link"],
+        Title:     html.UnescapeString(groups["title"]),
     }
 
     return &issue, nil

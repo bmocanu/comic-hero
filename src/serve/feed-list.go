@@ -60,13 +60,15 @@ func getFeedList(response http.ResponseWriter, request *http.Request) {
     sort.Strings(sortedComicNames)
 
     for _, comicName := range sortedComicNames {
-        var comicDef = config.ComicDefs[comicName]
-        pageContent += fmt.Sprintf(feedDiv,
-            comicDef.Url,
-            html.EscapeString(comicDef.Name),
-            html.EscapeString(comicDef.Description),
-            urlConcat(contextPath, "/feed/rss/"+strconv.Itoa(comicDef.Id)),
-            urlConcat(contextPath, "/feed/atom/"+strconv.Itoa(comicDef.Id)))
+        if (config.IsComicEnabled(comicName)) {
+            var comicDef = config.ComicDefs[comicName]
+            pageContent += fmt.Sprintf(feedDiv,
+                comicDef.Url,
+                html.EscapeString(comicDef.Name),
+                html.EscapeString(comicDef.Description),
+                urlConcat(contextPath, "/feed/rss/"+strconv.Itoa(comicDef.Id)),
+                urlConcat(contextPath, "/feed/atom/"+strconv.Itoa(comicDef.Id)))
+        }
     }
 
     pageContent += fmt.Sprintf(pageSuffix,

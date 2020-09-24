@@ -20,7 +20,7 @@ var gocomicsNames = [...]string{
     "duplex", "jerryholbert", "life-on-earth", "whyatt-cartoons", "pot-shots", "waynovision", "dogeatdoug",
     "luann", "mikeluckovich", "nonsequitur", "bignate", "inthebleachers", "imaginethis", "bloomcounty",
     "wizardofid", "strangebrew", "wumo", "gasolinealley", "getfuzzy", "roseisrose", "robrogers", "offthemark",
-    "libertymeadows", "heathcliff", "herbandjamaal", "harley", "9to5",
+    "libertymeadows", "heathcliff", "herbandjamaal", "harley", "9to5", "herman", "pickles",
 }
 
 var gocomicsRegexp *regexp.Regexp
